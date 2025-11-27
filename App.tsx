@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { VideoProject, VideoStatus, VideoType, MONTHS_TR, FilterState, PROJECT_PRICES, ToDoItem, EquipmentItem, SubscriptionItem, ProductStatus, GalleryItem, LifestyleItem, DocumentItem } from './types';
 import { StatusBadge } from './components/StatusBadge';
@@ -12,10 +11,12 @@ import { DocumentsModal } from './components/DocumentsModal';
 import { WeekInvoiceModal } from './components/WeekInvoiceModal';
 import { WeekLogisticsModal } from './components/WeekLogisticsModal';
 import { DashboardCharts } from './components/DashboardCharts';
-import { db } from './firebaseConfig';
+import { db, auth } from './firebaseConfig';
 import { ref, onValue, push, set, update, remove } from "firebase/database";
+import { onAuthStateChanged, signOut, User } from 'firebase/auth';
 import { StudioLogo } from './components/StudioLogo';
 import { BimLogo } from './components/BimLogo';
+import { LoginPage } from './components/LoginPage';
 
 // --- Icons ---
 const PlusIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>;
@@ -45,6 +46,7 @@ const SunIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none
 const FileTextIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>;
 const ChartIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="8" y1="12" x2="8" y2="17"/><line x1="12" y1="17" x2="12" y2="10"/><line x1="16" y1="17" x2="16" y2="7"/></svg>;
 const StickyNoteIcon = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/><path d="M15 3v6h6"/></svg>;
+const LogOutIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>;
 
 // New Icons for Stats
 const FilmIcon = () => <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>;
@@ -53,6 +55,10 @@ const ApertureIcon = () => <svg width="32" height="32" viewBox="0 0 24 24" fill=
 const LayoutIcon = () => <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="3 9h18"/><path d="M9 21V9"/></svg>;
 
 const App: React.FC = () => {
+  // -- Auth State --
+  const [user, setUser] = useState<User | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+
   // -- App State --
   const [videos, setVideos] = useState<VideoProject[]>([]);
   const [toDoItems, setToDoItems] = useState<ToDoItem[]>([]);
@@ -98,6 +104,14 @@ const App: React.FC = () => {
   });
 
   useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setAuthLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
@@ -108,10 +122,13 @@ const App: React.FC = () => {
   }, [isDarkMode]);
 
   const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
+  const handleLogout = () => signOut(auth);
 
   const [expandedWeeks, setExpandedWeeks] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
+    if (!user) return; // Only fetch if logged in
+
     const refs = [
       { ref: ref(db, 'videos'), setter: setVideos },
       { ref: ref(db, 'todos'), setter: setToDoItems },
@@ -138,7 +155,7 @@ const App: React.FC = () => {
     });
 
     return () => { unsubscribers.forEach(unsub => unsub()); periodUnsub(); };
-  }, []);
+  }, [user]); // Re-run when user state changes
 
   const handleAddVideo = (date: string, title: string, quantity: number, status: VideoStatus, type: VideoType, productStatus: ProductStatus, notes: string) => {
     if (editingVideo) {
@@ -386,6 +403,29 @@ const App: React.FC = () => {
   const missingProductCount = useMemo(() => filteredVideos.filter(v => v.productStatus === ProductStatus.NOT_ARRIVED && !v.isCompleted && v.status !== VideoStatus.CANCELLED && v.status !== VideoStatus.REPEAT).length, [filteredVideos]);
   const netProfit = totalInvoiceAmount - monthlySubscriptionCost;
 
+  // -- LOADING SCREEN --
+  if (authLoading) {
+     return (
+        <div className="min-h-screen flex items-center justify-center bg-[#F8F9FA] dark:bg-[#050505] transition-colors">
+           <div className="flex flex-col items-center">
+              <div className="w-20 h-20 bg-[#D81B2D] rounded-2xl flex items-center justify-center animate-pulse shadow-2xl">
+                 <StudioLogo className="w-12 h-12 brightness-0 invert" />
+              </div>
+              <div className="mt-8 flex gap-2">
+                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-75"></div>
+                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-150"></div>
+                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-300"></div>
+              </div>
+           </div>
+        </div>
+     );
+  }
+
+  // -- AUTH GUARD --
+  if (!user) {
+     return <LoginPage />;
+  }
+
   return (
     <div className="min-h-screen bg-[#F8F9FA] dark:bg-[#050505] pb-32 font-body text-[#1A1A1A] dark:text-gray-100 print:bg-white print:pb-0 transition-colors duration-300 animate-fade-in">
       
@@ -431,8 +471,11 @@ const App: React.FC = () => {
                         <button onClick={() => setIsDashboardOpen(!isDashboardOpen)} className={`p-2.5 rounded-full transition-all ${isDashboardOpen ? 'bg-gray-200 dark:bg-[#333] text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1E1E1E]'}`} title="İstatistikler">
                             <ChartIcon />
                         </button>
-                        <button onClick={toggleDarkMode} className="p-2.5 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1E1E1E] transition-all">
+                        <button onClick={toggleDarkMode} className="p-2.5 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1E1E1E] transition-all" title="Tema Değiştir">
                             {isDarkMode ? <SunIcon /> : <MoonIcon />}
+                        </button>
+                        <button onClick={handleLogout} className="p-2.5 rounded-full text-gray-500 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-all" title="Çıkış Yap">
+                            <LogOutIcon />
                         </button>
                     </div>
 
@@ -459,6 +502,9 @@ const App: React.FC = () => {
                    </div>
                    <button onClick={() => setIsDashboardOpen(!isDashboardOpen)} className={`p-2 rounded-full ${isDashboardOpen ? 'bg-gray-200 dark:bg-[#333]' : ''} text-gray-600 dark:text-gray-300`}>
                       <ChartIcon />
+                   </button>
+                   <button onClick={handleLogout} className="p-2 text-gray-600 dark:text-gray-300 hover:text-red-500">
+                      <LogOutIcon />
                    </button>
                 </div>
               </div>
