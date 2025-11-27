@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { VideoProject, PROJECT_PRICES, VideoStatus } from '../types';
 import { StudioLogo } from './StudioLogo';
@@ -18,35 +19,42 @@ export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onCl
   // Sort items by date
   const sortedItems = [...invoicedItems].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-  const total = sortedItems.reduce((sum, item) => sum + (PROJECT_PRICES[item.type] * item.quantity), 0);
+  const totalAmount = sortedItems.reduce((sum, item) => sum + (PROJECT_PRICES[item.type] * item.quantity), 0);
   const totalQuantity = sortedItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 print:p-0 print:block print:bg-white print:z-[10000]">
       <style>{`
         @media print {
-          @page { size: A4 portrait; margin: 5mm; }
-          html, body { height: 100%; margin: 0; padding: 0; background: white; -webkit-print-color-adjust: exact; }
-          /* Hide everything in body except the invoice root */
-          body > *:not(#invoice-root-container) { display: none !important; }
+          @page { size: A4 portrait; margin: 10mm; }
           
-          #invoice-root-container { 
-            display: block !important; 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: white;
-            z-index: 9999;
-            margin: 0 !important;
-            padding: 0 !important;
-            overflow: visible !important;
+          /* Hide everything by default */
+          body * {
+            visibility: hidden;
           }
           
-          /* Force single page behavior if content allows, otherwise clean breaks */
-          table { page-break-inside: auto; }
-          tr { page-break-inside: avoid; page-break-after: auto; }
+          /* Make invoice container and its children visible */
+          #invoice-root-container, #invoice-root-container * {
+            visibility: visible;
+          }
+          
+          /* Position the invoice at the very top */
+          #invoice-root-container {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white;
+          }
+
+          /* Reset nice scrollbars for print */
+          ::-webkit-scrollbar { display: none; }
+          
+          /* Force table styling for print */
+          table { width: 100% !important; border-collapse: collapse !important; }
+          th, td { border-color: #ddd !important; }
         }
       `}</style>
 
@@ -66,7 +74,7 @@ export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onCl
         </div>
 
         {/* Scrollable Content Area (On Screen) / Full Page (Print) */}
-        <div className="flex-1 overflow-y-auto p-8 print:p-4 print:overflow-visible bg-white">
+        <div className="flex-1 overflow-y-auto p-8 print:p-0 print:overflow-visible bg-white">
             
             {/* --- INVOICE DOCUMENT START --- */}
             <div className="max-w-[210mm] mx-auto bg-white print:w-full print:max-w-none">
@@ -126,14 +134,15 @@ export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onCl
                         )}
                     </tbody>
                     
-                    {/* 3. Summary Footer in Table */}
+                    {/* 3. Summary Footer */}
                     <tfoot className="border-t-2 border-black bg-gray-50 print:bg-transparent">
-                        <tr>
-                            <td colSpan={4} className="py-3 text-right text-[10px] font-bold text-gray-500 uppercase tracking-widest align-middle">GENEL TOPLAM</td>
-                            <td className="py-3 text-center font-bold text-xs align-middle bg-gray-100 print:bg-transparent border-l border-r border-transparent print:border-gray-200">{totalQuantity}</td>
-                            <td colSpan={2} className="py-3 text-right pr-2 align-middle">
+                        <tr className="border-t border-gray-300">
+                            <td colSpan={4} className="py-3 text-right text-[10px] font-black text-gray-500 uppercase tracking-widest align-middle">TOPLAM ADET</td>
+                            <td className="py-3 text-center font-bold text-xs align-middle bg-gray-100 print:bg-transparent">{totalQuantity}</td>
+                            <td className="py-3 text-right text-[10px] font-black text-gray-900 uppercase tracking-widest align-middle">GENEL TOPLAM</td>
+                            <td className="py-3 text-right pr-2 align-middle">
                                 <span className="text-xl font-black text-black tracking-tight">
-                                    {new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(total)}
+                                    {new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(totalAmount)}
                                 </span>
                             </td>
                         </tr>
@@ -141,7 +150,7 @@ export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onCl
                 </table>
 
                 {/* 4. Bottom Section: Signatures & Disclaimer */}
-                <div className="mt-12 flex justify-between gap-12 pt-6 border-t border-dashed border-gray-300 print:mt-8 page-break-inside-avoid">
+                <div className="mt-12 flex justify-between gap-12 pt-6 border-t border-dashed border-gray-300 print:mt-16 page-break-inside-avoid">
                     <div className="flex-1">
                         <p className="text-[9px] font-bold text-gray-400 uppercase mb-8 tracking-wider">HAZIRLAYAN / ONAY</p>
                         <div className="h-px w-32 bg-gray-300"></div>
