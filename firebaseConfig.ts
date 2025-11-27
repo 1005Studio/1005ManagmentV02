@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
+import { getAuth } from "firebase/auth";
 
 // 1005 Studio Firebase Konfigürasyonu
 const firebaseConfig = {
@@ -17,3 +18,6 @@ const app = initializeApp(firebaseConfig);
 
 // Veritabanı servisini dışarı aktar
 export const db = getDatabase(app);
+
+// Kimlik doğrulama servisini dışarı aktar
+export const auth = getAuth(app);

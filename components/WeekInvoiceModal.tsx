@@ -41,7 +41,7 @@ export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onCl
             top: 0 !important;
             width: 100% !important;
             margin: 0 !important;
-            padding: 10mm !important; /* Safe print margin */
+            padding: 5mm !important; /* Reduced padding */
             background: white !important;
             box-shadow: none !important;
             border-radius: 0 !important;
@@ -49,6 +49,8 @@ export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onCl
             height: auto !important;
             overflow: visible !important;
             display: block !important;
+            transform: scale(0.95); /* Scale down to ensure fit */
+            transform-origin: top center;
           }
           
           #invoice-modal-content * {
@@ -87,19 +89,19 @@ export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onCl
             {/* --- INVOICE DOCUMENT START --- */}
             <div className="max-w-[210mm] mx-auto bg-white print:w-full print:max-w-none">
                 
-                {/* 1. Header Section */}
-                <div className="flex justify-between items-start border-b-2 border-black pb-4 mb-4">
+                {/* 1. Header Section - More Compact */}
+                <div className="flex justify-between items-start border-b-2 border-black pb-2 mb-2">
                     <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 object-contain flex items-center justify-center">
+                        <div className="w-12 h-12 object-contain flex items-center justify-center">
                             <StudioLogo className="w-full h-full" />
                         </div>
                     </div>
                     <div className="text-right">
-                        <h2 className="text-xl font-black text-gray-900 uppercase tracking-tight">HİZMET DÖKÜMÜ</h2>
-                        <div className="inline-block bg-gray-100 print:bg-transparent px-2 py-1 rounded mt-1">
-                            <p className="text-xs font-bold text-gray-800 uppercase">{weekLabel}</p>
+                        <h2 className="text-lg font-black text-gray-900 uppercase tracking-tight">HİZMET DÖKÜMÜ</h2>
+                        <div className="inline-block bg-gray-100 print:bg-transparent px-2 py-0.5 rounded mt-0.5">
+                            <p className="text-[10px] font-bold text-gray-800 uppercase">{weekLabel}</p>
                         </div>
-                        <p className="text-[9px] text-gray-400 mt-1 uppercase font-medium">Belge Tarihi: {new Date().toLocaleDateString('tr-TR')}</p>
+                        <p className="text-[8px] text-gray-400 mt-0.5 uppercase font-medium">Belge Tarihi: {new Date().toLocaleDateString('tr-TR')}</p>
                     </div>
                 </div>
 
@@ -107,34 +109,34 @@ export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onCl
                 <table className="w-full text-left border-collapse">
                     <thead>
                         <tr className="border-b-2 border-black text-[9px] font-black text-gray-500 uppercase tracking-wider">
-                            <th className="py-2 pl-2 w-10 text-center">NO</th>
-                            <th className="py-2 w-24">TARİH</th>
-                            <th className="py-2">PROJE / İÇERİK</th>
-                            <th className="py-2 w-24 text-center">KATEGORİ</th>
-                            <th className="py-2 w-12 text-center">ADET</th>
-                            <th className="py-2 w-24 text-right">BİRİM FİYAT</th>
-                            <th className="py-2 w-24 text-right pr-2">TUTAR</th>
+                            <th className="py-1 pl-2 w-8 text-center">NO</th>
+                            <th className="py-1 w-20">TARİH</th>
+                            <th className="py-1">PROJE / İÇERİK</th>
+                            <th className="py-1 w-20 text-center">KATEGORİ</th>
+                            <th className="py-1 w-10 text-center">ADET</th>
+                            <th className="py-1 w-20 text-right">BİRİM FİYAT</th>
+                            <th className="py-1 w-20 text-right pr-2">TUTAR</th>
                         </tr>
                     </thead>
-                    <tbody className="text-[10px] text-gray-800 font-medium">
+                    <tbody className="text-[9px] text-gray-800 font-medium">
                         {sortedItems.length === 0 ? (
-                            <tr><td colSpan={7} className="py-12 text-center italic text-gray-400">Bu dönem için faturalandırılacak kalem bulunmamaktadır.</td></tr>
+                            <tr><td colSpan={7} className="py-8 text-center italic text-gray-400">Bu dönem için faturalandırılacak kalem bulunmamaktadır.</td></tr>
                         ) : (
                             sortedItems.map((item, index) => (
                                 <tr key={item.id} className="border-b border-gray-100 print:border-gray-200 even:bg-gray-50/50 print:even:bg-transparent">
-                                    <td className="py-1.5 pl-2 text-center text-gray-400 font-mono">{index + 1}</td>
-                                    <td className="py-1.5 whitespace-nowrap text-gray-600">{new Date(item.date).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' })}</td>
-                                    <td className="py-1.5 font-bold uppercase truncate max-w-[220px] print:max-w-none print:whitespace-normal">{item.title}</td>
-                                    <td className="py-1.5 text-center">
-                                        <span className="text-[9px] uppercase tracking-wide text-gray-500 font-bold border border-gray-200 px-1 rounded">
+                                    <td className="py-1 pl-2 text-center text-gray-400 font-mono">{index + 1}</td>
+                                    <td className="py-1 whitespace-nowrap text-gray-600">{new Date(item.date).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' })}</td>
+                                    <td className="py-1 font-bold uppercase truncate max-w-[200px] print:max-w-none print:whitespace-normal leading-tight">{item.title}</td>
+                                    <td className="py-1 text-center">
+                                        <span className="text-[8px] uppercase tracking-wide text-gray-500 font-bold border border-gray-200 px-1 rounded">
                                             {item.type}
                                         </span>
                                     </td>
-                                    <td className="py-1.5 text-center font-mono font-bold">{item.quantity}</td>
-                                    <td className="py-1.5 text-right font-mono text-gray-500">
+                                    <td className="py-1 text-center font-mono font-bold">{item.quantity}</td>
+                                    <td className="py-1 text-right font-mono text-gray-500">
                                         {new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 }).format(PROJECT_PRICES[item.type])} ₺
                                     </td>
-                                    <td className="py-1.5 text-right font-mono font-bold pr-2 text-black">
+                                    <td className="py-1 text-right font-mono font-bold pr-2 text-black">
                                         {new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 }).format(PROJECT_PRICES[item.type] * item.quantity)} ₺
                                     </td>
                                 </tr>
@@ -145,11 +147,11 @@ export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onCl
                     {/* 3. Summary Footer */}
                     <tfoot className="border-t-2 border-black bg-gray-50 print:bg-transparent">
                         <tr className="border-t border-gray-300">
-                            <td colSpan={4} className="py-3 text-right text-[10px] font-black text-gray-500 uppercase tracking-widest align-middle">TOPLAM ADET</td>
-                            <td className="py-3 text-center font-bold text-xs align-middle bg-gray-100 print:bg-transparent">{totalQuantity}</td>
-                            <td className="py-3 text-right text-[10px] font-black text-gray-900 uppercase tracking-widest align-middle">GENEL TOPLAM</td>
-                            <td className="py-3 text-right pr-2 align-middle">
-                                <span className="text-xl font-black text-black tracking-tight">
+                            <td colSpan={4} className="py-2 text-right text-[9px] font-black text-gray-500 uppercase tracking-widest align-middle">TOPLAM ADET</td>
+                            <td className="py-2 text-center font-bold text-[10px] align-middle bg-gray-100 print:bg-transparent">{totalQuantity}</td>
+                            <td className="py-2 text-right text-[9px] font-black text-gray-900 uppercase tracking-widest align-middle">GENEL TOPLAM</td>
+                            <td className="py-2 text-right pr-2 align-middle">
+                                <span className="text-lg font-black text-black tracking-tight">
                                     {new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(totalAmount)}
                                 </span>
                             </td>
@@ -158,20 +160,20 @@ export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onCl
                 </table>
 
                 {/* 4. Bottom Section: Signatures & Disclaimer */}
-                <div className="mt-12 flex justify-between gap-12 pt-6 border-t border-dashed border-gray-300 print:mt-16 page-break-inside-avoid">
+                <div className="mt-6 flex justify-between gap-12 pt-4 border-t border-dashed border-gray-300 print:mt-6 page-break-inside-avoid">
                     <div className="flex-1">
-                        <p className="text-[9px] font-bold text-gray-400 uppercase mb-8 tracking-wider">HAZIRLAYAN / ONAY</p>
-                        <div className="h-px w-32 bg-gray-300"></div>
-                        <p className="text-[9px] text-gray-400 mt-2 font-medium">1005 Studio Yönetimi</p>
+                        <p className="text-[8px] font-bold text-gray-400 uppercase mb-4 tracking-wider">HAZIRLAYAN / ONAY</p>
+                        <div className="h-px w-24 bg-gray-300"></div>
+                        <p className="text-[8px] text-gray-400 mt-1 font-medium">1005 Studio Yönetimi</p>
                     </div>
                     <div className="flex-1 text-right">
-                         <p className="text-[9px] font-bold text-gray-400 uppercase mb-8 tracking-wider">TESLİM ALAN / KAŞE</p>
-                         <div className="h-px w-32 bg-gray-300 ml-auto"></div>
+                         <p className="text-[8px] font-bold text-gray-400 uppercase mb-4 tracking-wider">TESLİM ALAN / KAŞE</p>
+                         <div className="h-px w-24 bg-gray-300 ml-auto"></div>
                     </div>
                 </div>
 
-                <div className="mt-8 text-center pt-2 print:fixed print:bottom-4 print:left-0 print:w-full">
-                    <p className="text-[8px] text-gray-300 uppercase tracking-[0.3em] font-bold">1005 CREATIVE STUDIO MANAGER v2.0 • BU BELGE BİLGİ AMAÇLIDIR</p>
+                <div className="mt-4 text-center pt-2 print:fixed print:bottom-2 print:left-0 print:w-full">
+                    <p className="text-[7px] text-gray-300 uppercase tracking-[0.3em] font-bold">1005 CREATIVE STUDIO MANAGER v2.0 • BU BELGE BİLGİ AMAÇLIDIR</p>
                 </div>
             </div>
             {/* --- INVOICE DOCUMENT END --- */}
