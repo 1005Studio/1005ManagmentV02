@@ -18,7 +18,7 @@ export const DashboardCharts: React.FC<DashboardChartsProps> = ({ videos, isOpen
     const counts: Record<string, number> = {};
     videos.forEach(v => {
       // Group active statuses
-      let key = v.status;
+      let key: string = v.status;
       if (v.status === VideoStatus.PLANNED) key = 'Plan';
       if (v.status === VideoStatus.SHOOTING) key = 'Çekim';
       if (v.status === VideoStatus.EDITING) key = 'Kurgu';
