@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { auth } from '../firebaseConfig';
 import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence } from 'firebase/auth';
 import { StudioLogo } from './StudioLogo';
@@ -21,16 +21,22 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
     setIsConfigError(false);
     setLoading(true);
 
-    // 1. Önce "Yerel Yönetici" (Hardcoded) şifresini kontrol et
-    // Bu, Firebase ayarları bozuk olsa bile giriş yapılmasını sağlar.
-    if (email === 'erdem.ozkan@1005.studio' && password === 'Dfn1005.') {
-       setTimeout(() => {
-         if (onLoginSuccess) onLoginSuccess();
-       }, 500);
-       return;
+    // --- LOCAL BACKDOOR CHECK ---
+    // Eğer Firebase çalışmıyorsa bu yöntemle giriş yapılabilir.
+    // Kullanıcı adı: erdem (veya tam mail)
+    // Şifre: Dfn1005.
+    if (
+        (email.toLowerCase().trim() === 'erdem' || email.trim() === 'erdem.ozkan@1005.studio') && 
+        password === 'Dfn1005.'
+    ) {
+        // Local auth flag set et
+        localStorage.setItem('1005_auth', 'true');
+        // Sayfayı yenile ki App.tsx local auth'u görsün
+        window.location.reload();
+        return;
     }
 
-    // 2. Eğer yerel şifre değilse, Firebase Auth dene
+    // --- FIREBASE AUTH ---
     try {
       await setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
       await signInWithEmailAndPassword(auth, email, password);
@@ -117,7 +123,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full bg-[#0a0a0a] text-white border border-white/10 rounded-xl px-4 py-3.5 pl-11 outline-none focus:border-[#D81B2D] focus:ring-1 focus:ring-[#D81B2D]/50 transition-all text-sm font-medium placeholder-gray-700 hover:border-white/20"
-                    placeholder="Kullanıcı Adı"
                     required 
                   />
                   <div className="absolute left-3.5 top-3.5 text-gray-600 group-focus-within:text-[#D81B2D] transition-colors">

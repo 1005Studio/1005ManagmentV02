@@ -57,11 +57,9 @@ const LayoutIcon = () => <svg width="32" height="32" viewBox="0 0 24 24" fill="n
 const App: React.FC = () => {
   // -- Auth State --
   const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
+  const [isLocalAuth, setIsLocalAuth] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
   
-  // Custom Local Auth State (B Planı için)
-  const [isLocalAuth, setIsLocalAuth] = useState(() => localStorage.getItem('studio_user') === 'true');
-
   // -- App State --
   const [videos, setVideos] = useState<VideoProject[]>([]);
   const [toDoItems, setToDoItems] = useState<ToDoItem[]>([]);
@@ -107,9 +105,16 @@ const App: React.FC = () => {
   });
 
   useEffect(() => {
+    // Check local auth
+    const local = localStorage.getItem('1005_auth');
+    if (local === 'true') {
+        setIsLocalAuth(true);
+        setAuthLoading(false);
+    }
+
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setFirebaseUser(currentUser);
-      setAuthLoading(false);
+      if (!local) setAuthLoading(false);
     });
     return () => unsubscribe();
   }, []);
@@ -127,15 +132,12 @@ const App: React.FC = () => {
   const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
 
   // AUTH HANDLERS
-  const handleLocalLogin = () => {
-    localStorage.setItem('studio_user', 'true');
-    setIsLocalAuth(true);
-  };
-
   const handleLogout = () => {
     signOut(auth).catch(() => {});
-    localStorage.removeItem('studio_user');
+    localStorage.removeItem('1005_auth');
     setIsLocalAuth(false);
+    // Reload to clear state
+    window.location.reload();
   };
 
   const isAuthenticated = firebaseUser !== null || isLocalAuth;
@@ -391,8 +393,8 @@ const App: React.FC = () => {
   const monthlySubscriptionCost = useMemo(() => {
      return subscriptionItems.reduce((acc, item) => {
         let price = item.price;
-        if(item.currency === 'USD') price = price * 34;
-        if(item.currency === 'EUR') price = price * 36;
+        if(item.currency === 'USD') price = item.price * 34;
+        if(item.currency === 'EUR') price = item.price * 36;
         if(item.cycle === 'Yıllık') price = price / 12;
         return acc + price;
      }, 0);
@@ -420,7 +422,7 @@ const App: React.FC = () => {
   const netProfit = totalInvoiceAmount - monthlySubscriptionCost;
 
   // -- LOADING SCREEN --
-  if (authLoading && !isLocalAuth) {
+  if (authLoading) {
      return (
         <div className="min-h-screen flex items-center justify-center bg-[#F8F9FA] dark:bg-[#050505] transition-colors">
            <div className="flex flex-col items-center">
@@ -439,7 +441,7 @@ const App: React.FC = () => {
 
   // -- AUTH GUARD --
   if (!isAuthenticated) {
-     return <LoginPage onLoginSuccess={handleLocalLogin} />;
+     return <LoginPage />;
   }
 
   return (
