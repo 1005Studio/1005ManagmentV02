@@ -26,21 +26,21 @@ const EditIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="non
 const ChevronDownIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>;
 const ChevronUpIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m18 15-6-6-6 6"/></svg>;
 const PrintIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>;
-const ListIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>;
+const ListIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>;
 const DatabaseIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>;
 const ChevronLeftIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>;
 const ChevronRightIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>;
-const CameraIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>;
-const CreditCardIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>;
+const CameraIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>;
+const CreditCardIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>;
 const BoxIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>;
 const SearchIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>;
 const HomeIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
-const GalleryIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>;
-const GridIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>;
+const GalleryIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>;
+const GridIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>;
 const AlertIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>;
 const ImageIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>;
-const MoonIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>;
-const SunIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>;
+const MoonIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>;
+const SunIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>;
 const FileTextIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>;
 const ChartIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="8" y1="12" x2="8" y2="17"/><line x1="12" y1="17" x2="12" y2="10"/><line x1="16" y1="17" x2="16" y2="7"/></svg>;
 const StickyNoteIcon = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/><path d="M15 3v6h6"/></svg>;
@@ -388,70 +388,80 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#F8F9FA] dark:bg-[#050505] pb-32 font-body text-[#1A1A1A] dark:text-gray-100 print:bg-white print:pb-0 transition-colors duration-300 animate-fade-in">
       
-      {/* -- STICKY CONTAINER: Header + Filters + Stats -- */}
-      <div className="sticky top-0 z-40 glass dark:border-b dark:border-gray-800 shadow-sm transition-all duration-300 print:hidden backdrop-blur-md bg-white/80 dark:bg-[#050505]/80">
-          
-          {/* -- Header -- */}
-          <header className="border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-colors duration-300">
+      {/* -- REFRESHED MINIMAL HEADER -- */}
+      <div className="sticky top-0 z-40 glass dark:border-b dark:border-gray-800 shadow-sm transition-all duration-300 print:hidden backdrop-blur-xl bg-white/70 dark:bg-[#050505]/70">
+          <header className="border-b border-gray-100/50 dark:border-gray-800/50 shadow-sm">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex flex-col md:flex-row justify-between items-center h-auto md:h-20 py-3 md:py-0 gap-4 md:gap-0">
-                <div className="h-8 md:h-10 flex items-center hover:scale-105 transition-transform cursor-pointer"><StudioLogo className="h-full" /></div>
-                
-                {/* Desktop Menu */}
-                <div className="hidden md:flex items-center gap-2 flex-wrap justify-end">
-                   <button onClick={() => setIsDocumentsOpen(true)} className="flex items-center gap-2 px-3 py-2 bg-white/50 dark:bg-[#2C2C2C]/50 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#3A3A3A] hover:shadow-md transition-all shadow-sm" title="Şirket Evrakları">
-                      <FileTextIcon /> <span className="hidden xl:inline">Evraklar</span>
-                   </button>
-                   <div className="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-1"></div>
-                   <button onClick={() => setIsGalleryOpen(true)} className="flex items-center gap-2 px-3 py-2 bg-white/50 dark:bg-[#2C2C2C]/50 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#3A3A3A] hover:shadow-md transition-all shadow-sm">
-                      <GalleryIcon /> <span>Bu Cuma</span>
-                   </button>
-                   <button onClick={() => setIsLifestyleOpen(true)} className="flex items-center gap-2 px-3 py-2 bg-white/50 dark:bg-[#2C2C2C]/50 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#3A3A3A] hover:shadow-md transition-all shadow-sm">
-                      <GridIcon /> <span>İlham</span>
-                   </button>
-                   <button onClick={() => setIsToDoOpen(true)} className="flex items-center gap-2 px-3 py-2 bg-white/50 dark:bg-[#2C2C2C]/50 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#3A3A3A] hover:shadow-md transition-all shadow-sm">
-                      <ListIcon /> <span>Notlar</span>
-                   </button>
-                   <button onClick={() => setIsEquipmentOpen(true)} className="flex items-center gap-2 px-3 py-2 bg-white/50 dark:bg-[#2C2C2C]/50 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#3A3A3A] hover:shadow-md transition-all shadow-sm">
-                      <CameraIcon /> <span>Ekipman</span>
-                   </button>
-                   <button onClick={() => setIsSubscriptionOpen(true)} className="flex items-center gap-2 px-3 py-2 bg-white/50 dark:bg-[#2C2C2C]/50 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#3A3A3A] hover:shadow-md transition-all shadow-sm">
-                      <CreditCardIcon /> <span>Abonelik</span>
-                   </button>
-                   <div className="w-px h-8 bg-gray-200 dark:bg-gray-700 mx-1"></div>
-                   
-                   <button onClick={() => setIsDashboardOpen(!isDashboardOpen)} className={`p-2 rounded-lg transition-colors ${isDashboardOpen ? 'bg-[#D81B2D] text-white' : 'bg-gray-100 dark:bg-[#2C2C2C] text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#3A3A3A]'}`} title="Dashboard">
-                      <ChartIcon />
-                   </button>
+              <div className="flex justify-between items-center h-16 md:h-20">
+                {/* Logo Section */}
+                <div className="flex items-center gap-4">
+                    <div className="h-8 md:h-10 hover:opacity-80 transition-opacity cursor-pointer">
+                        <StudioLogo className="h-full" />
+                    </div>
+                </div>
 
-                   <button onClick={toggleDarkMode} className="p-2 rounded-lg bg-gray-100 dark:bg-[#2C2C2C] text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#3A3A3A] transition-colors">
-                      {isDarkMode ? <SunIcon /> : <MoonIcon />}
-                   </button>
-                   <button onClick={() => { setEditingVideo(null); setIsModalOpen(true); }} className="flex items-center gap-2 px-4 py-2 bg-[#D81B2D] text-white rounded-lg text-sm font-bold shadow-md hover:bg-[#b91625] hover:shadow-lg active:scale-95 transition-all">
-                      <PlusIcon /> <span>Yeni Proje</span>
-                   </button>
-                   <div className="h-8 border-l border-gray-200 dark:border-gray-700 pl-3"><BimLogo className="h-full" /></div>
+                {/* Minimal Desktop Menu */}
+                <div className="hidden md:flex items-center gap-4">
+                    
+                    {/* Navigation Cluster */}
+                    <div className="flex items-center p-1.5 bg-gray-100/50 dark:bg-[#1E1E1E]/50 rounded-full border border-gray-200/50 dark:border-gray-700/50">
+                        <button onClick={() => setIsDocumentsOpen(true)} className="p-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-[#2C2C2C] rounded-full transition-all" title="Evraklar">
+                            <FileTextIcon />
+                        </button>
+                        <button onClick={() => setIsGalleryOpen(true)} className="p-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-[#2C2C2C] rounded-full transition-all" title="Bu Cuma">
+                            <GalleryIcon />
+                        </button>
+                        <button onClick={() => setIsLifestyleOpen(true)} className="p-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-[#2C2C2C] rounded-full transition-all" title="Lifestyle İlham">
+                            <GridIcon />
+                        </button>
+                        <button onClick={() => setIsToDoOpen(true)} className="p-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-[#2C2C2C] rounded-full transition-all" title="Notlar">
+                            <ListIcon />
+                        </button>
+                        <button onClick={() => setIsEquipmentOpen(true)} className="p-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-[#2C2C2C] rounded-full transition-all" title="Ekipmanlar">
+                            <CameraIcon />
+                        </button>
+                        <button onClick={() => setIsSubscriptionOpen(true)} className="p-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-[#2C2C2C] rounded-full transition-all" title="Abonelikler">
+                            <CreditCardIcon />
+                        </button>
+                    </div>
+
+                    {/* System Cluster */}
+                    <div className="flex items-center gap-2">
+                        <button onClick={() => setIsDashboardOpen(!isDashboardOpen)} className={`p-2.5 rounded-full transition-all ${isDashboardOpen ? 'bg-gray-200 dark:bg-[#333] text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1E1E1E]'}`} title="İstatistikler">
+                            <ChartIcon />
+                        </button>
+                        <button onClick={toggleDarkMode} className="p-2.5 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1E1E1E] transition-all">
+                            {isDarkMode ? <SunIcon /> : <MoonIcon />}
+                        </button>
+                    </div>
+
+                    {/* Primary CTA */}
+                    <button onClick={() => { setEditingVideo(null); setIsModalOpen(true); }} className="flex items-center gap-2 px-5 py-2.5 bg-[#D81B2D] hover:bg-[#b91625] text-white rounded-full font-bold shadow-lg shadow-red-500/20 hover:shadow-red-500/40 active:scale-95 transition-all text-sm">
+                        <PlusIcon /> <span>Yeni Proje</span>
+                    </button>
+                    
+                    <div className="h-6 w-px bg-gray-200 dark:bg-gray-700 mx-2"></div>
+                    <div className="h-6"><BimLogo className="h-full opacity-80" /></div>
                 </div>
 
                 {/* Mobile Header Elements */}
-                <div className="flex md:hidden w-full items-center gap-2">
+                <div className="flex md:hidden w-full items-center gap-2 ml-4">
                    <div className="flex-1 relative">
                      <input 
                        type="text" 
                        value={searchQuery}
                        onChange={e => setSearchQuery(e.target.value)}
-                       placeholder="Proje ara..."
-                       className="w-full pl-9 pr-3 py-2 bg-gray-50 dark:bg-[#2C2C2C] border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:ring-2 focus:ring-[#D81B2D] outline-none dark:text-white"
+                       placeholder="Ara..."
+                       className="w-full pl-9 pr-3 py-2 bg-gray-100 dark:bg-[#1E1E1E] border-none rounded-full text-sm focus:ring-2 focus:ring-[#D81B2D] outline-none dark:text-white"
                      />
                      <div className="absolute left-3 top-2.5 text-gray-400"><SearchIcon /></div>
                    </div>
-                   <button onClick={() => setIsDashboardOpen(!isDashboardOpen)} className={`p-2 rounded-lg border ${isDashboardOpen ? 'bg-[#D81B2D] text-white border-[#D81B2D]' : 'bg-white dark:bg-[#2C2C2C] border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300'}`}>
+                   <button onClick={() => setIsDashboardOpen(!isDashboardOpen)} className={`p-2 rounded-full ${isDashboardOpen ? 'bg-gray-200 dark:bg-[#333]' : ''} text-gray-600 dark:text-gray-300`}>
                       <ChartIcon />
                    </button>
-                   <button onClick={toggleDarkMode} className="p-2 bg-white dark:bg-[#2C2C2C] border border-gray-200 dark:border-gray-700 rounded-lg text-gray-600 dark:text-gray-300">
+                   <button onClick={toggleDarkMode} className="p-2 rounded-full text-gray-600 dark:text-gray-300">
                       {isDarkMode ? <SunIcon /> : <MoonIcon />}
                    </button>
-                   <div className="h-8 border-l border-gray-200 dark:border-gray-700 pl-2"><BimLogo className="h-6" /></div>
                 </div>
               </div>
             </div>
@@ -463,58 +473,58 @@ const App: React.FC = () => {
             <DashboardCharts isOpen={isDashboardOpen} videos={filteredVideos} />
 
             {/* -- Filters Bar -- */}
-            <div className="bg-white/80 dark:bg-[#1E1E1E]/80 backdrop-blur-sm p-3 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 mb-3 flex flex-col sm:flex-row justify-between items-center no-print hover:shadow-md transition-all gap-3">
+            <div className="bg-white/60 dark:bg-[#1E1E1E]/60 backdrop-blur-md p-2 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 mb-3 flex flex-col sm:flex-row justify-between items-center no-print transition-all gap-3">
               {/* Quick Search MOVED TO LEFT */}
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                 <div className="relative w-full sm:w-auto flex-1">
+              <div className="flex items-center gap-2 w-full sm:w-auto px-2">
+                 <div className="relative w-full sm:w-auto flex-1 hidden md:block">
                      <input 
                        type="text" 
                        value={searchQuery}
                        onChange={e => setSearchQuery(e.target.value)}
-                       placeholder="Hızlı arama..."
-                       className="pl-9 pr-3 py-2 bg-gray-50 dark:bg-[#2C2C2C] border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:ring-2 focus:ring-[#D81B2D] outline-none w-full sm:w-64 transition-all dark:text-white hover:bg-white dark:hover:bg-[#333]"
+                       placeholder="Proje adı ile filtrele..."
+                       className="pl-9 pr-3 py-2 bg-transparent border-none text-sm focus:ring-0 outline-none w-full sm:w-64 transition-all dark:text-white placeholder-gray-500"
                      />
-                     <div className="absolute left-3 top-2.5 text-gray-400"><SearchIcon /></div>
+                     <div className="absolute left-0 top-2 text-gray-400"><SearchIcon /></div>
                  </div>
               </div>
               
-              <div className="flex items-center gap-3 w-full sm:w-auto flex-wrap justify-end">
+              <div className="flex items-center gap-2 w-full sm:w-auto flex-wrap justify-end">
                 
                 {/* Product Status Filter Segmented Control */}
-                <div className="flex bg-gray-100 dark:bg-[#2C2C2C] p-1 rounded-lg">
+                <div className="flex bg-gray-100/80 dark:bg-[#2C2C2C] p-1 rounded-xl">
                    <button 
                      onClick={() => setProductFilterState('ALL')}
-                     className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${productFilterState === 'ALL' ? 'bg-white dark:bg-[#3A3A3A] text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+                     className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${productFilterState === 'ALL' ? 'bg-white dark:bg-[#3A3A3A] text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
                    >
                      Tümü
                    </button>
                    <button 
                      onClick={() => setProductFilterState('ARRIVED')}
-                     className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all flex items-center gap-1 ${productFilterState === 'ARRIVED' ? 'bg-white dark:bg-[#3A3A3A] text-green-600 shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+                     className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1 ${productFilterState === 'ARRIVED' ? 'bg-white dark:bg-[#3A3A3A] text-green-600 shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
                    >
                      <BoxIcon /> Geldi
                    </button>
                    <button 
                      onClick={() => setProductFilterState('NOT_ARRIVED')}
-                     className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all flex items-center gap-1 ${productFilterState === 'NOT_ARRIVED' ? 'bg-white dark:bg-[#3A3A3A] text-red-600 shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+                     className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1 ${productFilterState === 'NOT_ARRIVED' ? 'bg-white dark:bg-[#3A3A3A] text-red-600 shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
                    >
                      <AlertIcon /> Gelmedi
                    </button>
                 </div>
 
                 {/* MONTH NAVIGATION */}
-                <div className="flex items-center bg-gray-50 dark:bg-[#2C2C2C] border border-gray-200 dark:border-gray-700 rounded-lg p-1">
-                  <button onClick={() => handleMonthChange(-1)} className="p-2 hover:bg-gray-200 dark:hover:bg-[#3A3A3A] rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" title="Önceki Ay">
+                <div className="flex items-center bg-gray-100/80 dark:bg-[#2C2C2C] rounded-xl p-1">
+                  <button onClick={() => handleMonthChange(-1)} className="p-2 hover:bg-white dark:hover:bg-[#3A3A3A] hover:shadow-sm rounded-lg text-gray-500 dark:text-gray-400 transition-all" title="Önceki Ay">
                     <ChevronLeftIcon />
                   </button>
                   
-                  <div className="flex items-center px-4 min-w-[140px] justify-center">
-                    <span className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wide">
+                  <div className="flex items-center px-4 min-w-[120px] justify-center">
+                    <span className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wide">
                         {filter.month === -1 ? `${filter.year} TÜM YIL` : `${MONTHS_TR[filter.month]} ${filter.year}`}
                     </span>
                   </div>
 
-                  <button onClick={() => handleMonthChange(1)} className="p-2 hover:bg-gray-200 dark:hover:bg-[#3A3A3A] rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" title="Sonraki Ay">
+                  <button onClick={() => handleMonthChange(1)} className="p-2 hover:bg-white dark:hover:bg-[#3A3A3A] hover:shadow-sm rounded-lg text-gray-500 dark:text-gray-400 transition-all" title="Sonraki Ay">
                     <ChevronRightIcon />
                   </button>
                 </div>
@@ -522,7 +532,7 @@ const App: React.FC = () => {
                 {/* COMPLETE MONTH */}
                 <button 
                    onClick={handleCompleteMonth}
-                   className="hidden sm:flex items-center gap-2 bg-green-50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-900/50 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800 text-sm font-bold px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
+                   className="hidden sm:flex items-center gap-2 bg-green-50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-900/50 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800 text-xs font-bold px-4 py-2 rounded-xl transition-colors whitespace-nowrap"
                    title="Bu ayı tamamlayıp bir sonraki aya geçer"
                 >
                    <CheckIcon /> <span>Ayı Tamamla</span>
@@ -743,21 +753,22 @@ const App: React.FC = () => {
       </main>
 
       {/* -- Mobile Bottom Navigation -- */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-[#1E1E1E]/90 backdrop-blur-md border-t border-gray-200 dark:border-gray-800 pb-safe z-50 h-20">
-        <div className="flex justify-around items-center h-full px-2 pb-4">
-           <button onClick={() => setActiveTab('home')} className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${activeTab === 'home' ? 'text-[#D81B2D]' : 'text-gray-400 dark:text-gray-500'}`}>
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-[#050505]/80 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 pb-safe z-50 h-20 shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
+        <div className="flex justify-around items-center h-full px-2 pb-2">
+           <button onClick={() => setActiveTab('home')} className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-all active:scale-95 ${activeTab === 'home' ? 'text-[#D81B2D]' : 'text-gray-400 dark:text-gray-500'}`}>
               <HomeIcon />
               <span className="text-[10px] font-bold">Ana Sayfa</span>
            </button>
-           <button onClick={() => { setActiveTab('todo'); setIsToDoOpen(true); }} className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${activeTab === 'todo' ? 'text-[#D81B2D]' : 'text-gray-400 dark:text-gray-500'}`}>
+           <button onClick={() => { setActiveTab('todo'); setIsToDoOpen(true); }} className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-all active:scale-95 ${activeTab === 'todo' ? 'text-[#D81B2D]' : 'text-gray-400 dark:text-gray-500'}`}>
               <ListIcon />
               <span className="text-[10px] font-bold">Yapılacaklar</span>
            </button>
-           <button onClick={() => { setActiveTab('equipment'); setIsEquipmentOpen(true); }} className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${activeTab === 'equipment' ? 'text-[#D81B2D]' : 'text-gray-400 dark:text-gray-500'}`}>
+           <div className="w-14"></div> {/* Spacer for FAB */}
+           <button onClick={() => { setActiveTab('equipment'); setIsEquipmentOpen(true); }} className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-all active:scale-95 ${activeTab === 'equipment' ? 'text-[#D81B2D]' : 'text-gray-400 dark:text-gray-500'}`}>
               <CameraIcon />
               <span className="text-[10px] font-bold">Ekipman</span>
            </button>
-           <button onClick={() => { setActiveTab('subscription'); setIsSubscriptionOpen(true); }} className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${activeTab === 'subscription' ? 'text-[#D81B2D]' : 'text-gray-400 dark:text-gray-500'}`}>
+           <button onClick={() => { setActiveTab('subscription'); setIsSubscriptionOpen(true); }} className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-all active:scale-95 ${activeTab === 'subscription' ? 'text-[#D81B2D]' : 'text-gray-400 dark:text-gray-500'}`}>
               <CreditCardIcon />
               <span className="text-[10px] font-bold">Abonelik</span>
            </button>
@@ -767,75 +778,69 @@ const App: React.FC = () => {
       {/* -- Mobile FAB (New Project) -- */}
       <button 
         onClick={() => { setEditingVideo(null); setIsModalOpen(true); }} 
-        className="md:hidden fixed bottom-24 right-4 w-14 h-14 bg-[#D81B2D] text-white rounded-full shadow-xl flex items-center justify-center z-50 hover:bg-[#b91625] active:scale-90 transition-all animate-in zoom-in slide-in-from-bottom-10 duration-500"
+        className="md:hidden fixed bottom-6 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-[#D81B2D] text-white rounded-full shadow-[0_8px_25px_rgba(216,27,45,0.4)] flex items-center justify-center z-[60] hover:bg-[#b91625] active:scale-90 transition-all border-4 border-[#F8F9FA] dark:border-[#050505]"
       >
         <PlusIcon />
       </button>
 
-      {/* -- NEW CONTROL BAR FOOTER (REDESIGNED) -- */}
-      <div className="hidden md:flex fixed bottom-0 left-0 right-0 bg-[#0F0F0F]/95 backdrop-blur-md border-t border-[#222] h-14 items-center justify-between px-6 z-50 print:hidden shadow-[0_-4px_20px_rgba(0,0,0,0.4)]">
-         
-         {/* LEFT: System Context */}
-         <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-[#1A1A1A] rounded-lg border border-[#2A2A2A] text-gray-400">
-               <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)] animate-pulse"></div>
-               <span className="text-xs font-bold tracking-wide text-gray-300">ONLINE</span>
-            </div>
-            <div className="h-8 w-px bg-[#222]"></div>
-            <div className="flex flex-col">
-               <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">DÖNEM</span>
-               <span className="text-sm font-bold text-white leading-tight cursor-pointer hover:text-[#E50012] transition-colors" onClick={() => window.scrollTo({top:0, behavior:'smooth'})}>
-                  {filter.month === -1 ? `${filter.year}` : `${MONTHS_TR[filter.month]} ${filter.year}`}
-               </span>
-            </div>
-         </div>
-
-         {/* CENTER: Operational Alerts */}
-         <div className="flex items-center gap-3 absolute left-1/2 transform -translate-x-1/2">
-            {missingProductCount > 0 ? (
-               <button 
-                 onClick={() => setProductFilterState('NOT_ARRIVED')}
-                 className="flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded-full border border-red-500/20 hover:border-red-500 transition-all group"
-               >
-                  <AlertIcon />
-                  <span className="text-xs font-black tracking-wide">{missingProductCount} EKSİK ÜRÜN</span>
-               </button>
-            ) : (
-               <div className="flex items-center gap-2 px-4 py-2 bg-green-500/5 text-green-600 rounded-full border border-green-500/10 opacity-50 grayscale transition-all hover:grayscale-0 hover:opacity-100">
-                  <CheckIcon />
-                  <span className="text-xs font-bold">TÜM ÜRÜNLER GELDİ</span>
-               </div>
-            )}
+      {/* -- REFRESHED FLOATING FOOTER -- */}
+      <div className="hidden md:flex fixed bottom-6 left-0 right-0 justify-center z-50 print:hidden pointer-events-none">
+         <div className="bg-[#1A1A1A]/90 dark:bg-white/90 backdrop-blur-xl border border-white/10 dark:border-black/10 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.3)] h-16 flex items-center px-6 gap-6 pointer-events-auto transform hover:scale-[1.01] transition-transform duration-300">
             
-            {pendingInvoiceCount > 0 && (
-               <div className="flex items-center gap-2 px-4 py-2 bg-yellow-500/10 text-yellow-500 rounded-full border border-yellow-500/20 hover:bg-yellow-500/20 transition-colors">
-                  <BillIcon />
-                  <span className="text-xs font-bold">{pendingInvoiceCount} FATURASIZ</span>
-               </div>
-            )}
-         </div>
+             {/* Section 1: Context */}
+             <div className="flex items-center gap-3">
+                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse"></div>
+                <div className="flex flex-col">
+                    <span className="text-[9px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest leading-none mb-0.5">AKTİF DÖNEM</span>
+                    <span className="text-sm font-bold text-white dark:text-black leading-none hover:text-[#D81B2D] dark:hover:text-[#D81B2D] cursor-pointer" onClick={() => window.scrollTo({top:0, behavior:'smooth'})}>
+                        {filter.month === -1 ? `${filter.year}` : `${MONTHS_TR[filter.month]} ${filter.year}`}
+                    </span>
+                </div>
+             </div>
 
-         {/* RIGHT: Financials */}
-         <div className="flex items-center gap-6">
-            <div className="flex flex-col items-end">
-               <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">TAHMİNİ GİDER</span>
-               <span className="text-xs font-mono text-gray-400">{new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(monthlySubscriptionCost)}</span>
-            </div>
-            
-            <div className="flex flex-col items-end bg-[#1A1A1A] px-4 py-1 rounded-lg border border-[#2A2A2A]">
-               <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">NET KÂR</span>
-               <span className={`text-lg font-mono font-bold leading-none ${netProfit > 0 ? 'text-emerald-400' : 'text-red-500'}`}>
-                  {new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(netProfit)}
-               </span>
-            </div>
+             <div className="w-px h-8 bg-white/10 dark:bg-black/10"></div>
 
-            <div className="h-8 w-px bg-[#222]"></div>
+             {/* Section 2: Alerts */}
+             <div className="flex items-center gap-2">
+                {missingProductCount > 0 ? (
+                   <button onClick={() => setProductFilterState('NOT_ARRIVED')} className="flex items-center gap-2 px-3 py-1.5 bg-red-500/20 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition-all">
+                      <AlertIcon /> <span className="text-xs font-bold">{missingProductCount} Ürün Eksik</span>
+                   </button>
+                ) : (
+                   <div className="flex items-center gap-2 px-3 py-1.5 text-gray-500 dark:text-gray-400 opacity-60">
+                      <CheckIcon /> <span className="text-xs font-bold">Ürünler Tamam</span>
+                   </div>
+                )}
+                
+                {pendingInvoiceCount > 0 && (
+                   <div className="flex items-center gap-2 px-3 py-1.5 bg-yellow-500/20 text-yellow-500 rounded-lg">
+                      <span className="text-xs font-bold">{pendingInvoiceCount} Faturasız</span>
+                   </div>
+                )}
+             </div>
 
-            <button onClick={() => window.print()} className="group flex items-center gap-2 text-gray-500 hover:text-white transition-colors" title="Rapor Yazdır">
-               <div className="p-2 rounded-lg group-hover:bg-[#222] transition-colors">
-                  <PrintIcon />
-               </div>
-            </button>
+             <div className="w-px h-8 bg-white/10 dark:bg-black/10"></div>
+
+             {/* Section 3: Money */}
+             <div className="flex items-center gap-6">
+                <div className="flex flex-col items-end opacity-70">
+                   <span className="text-[9px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest leading-none mb-0.5">TAHMİNİ GİDER</span>
+                   <span className="text-xs font-mono text-gray-300 dark:text-gray-600">{new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(monthlySubscriptionCost)}</span>
+                </div>
+                
+                <div className="flex flex-col items-end">
+                   <span className="text-[9px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest leading-none mb-0.5">NET KÂR</span>
+                   <span className={`text-xl font-mono font-black leading-none ${netProfit > 0 ? 'text-emerald-400 dark:text-emerald-600' : 'text-red-500'}`}>
+                      {new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(netProfit)}
+                   </span>
+                </div>
+             </div>
+
+             <div className="w-px h-8 bg-white/10 dark:bg-black/10"></div>
+
+             <button onClick={() => window.print()} className="p-2.5 text-gray-400 hover:text-white dark:hover:text-black bg-white/5 dark:bg-black/5 hover:bg-white/10 dark:hover:bg-black/10 rounded-lg transition-all" title="Rapor Yazdır">
+                <PrintIcon />
+             </button>
          </div>
       </div>
        
