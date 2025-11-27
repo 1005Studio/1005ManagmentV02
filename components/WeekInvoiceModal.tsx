@@ -23,46 +23,54 @@ export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onCl
   const totalQuantity = sortedItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 print:p-0 print:block print:bg-white print:z-[10000]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 print:p-0 print:block print:bg-white print:static print:inset-auto print:h-auto">
       <style>{`
         @media print {
-          @page { size: A4 portrait; margin: 10mm; }
+          @page { size: A4 portrait; margin: 0; }
           
-          /* Hide everything by default */
-          body * {
+          body {
             visibility: hidden;
+            background: white;
+          }
+
+          /* Force the modal content to be the only visible thing */
+          #invoice-modal-content {
+            visibility: visible !important;
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 10mm !important; /* Safe print margin */
+            background: white !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            max-width: none !important;
+            height: auto !important;
+            overflow: visible !important;
+            display: block !important;
           }
           
-          /* Make invoice container and its children visible */
-          #invoice-root-container, #invoice-root-container * {
+          #invoice-modal-content * {
             visibility: visible;
           }
-          
-          /* Position the invoice at the very top */
-          #invoice-root-container {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            margin: 0 !important;
-            padding: 0 !important;
-            background: white;
+
+          .no-print {
+            display: none !important;
           }
 
           /* Reset nice scrollbars for print */
           ::-webkit-scrollbar { display: none; }
           
-          /* Force table styling for print */
           table { width: 100% !important; border-collapse: collapse !important; }
-          th, td { border-color: #ddd !important; }
         }
       `}</style>
 
       {/* Main Container */}
-      <div id="invoice-root-container" className="bg-white w-full max-w-4xl md:rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] print:max-h-none print:h-auto print:shadow-none print:rounded-none text-gray-900">
+      <div id="invoice-modal-content" className="bg-white w-full max-w-4xl md:rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] print:max-h-none print:h-auto text-gray-900">
         
         {/* Screen-only Header with Actions */}
-        <div className="flex justify-between items-center p-4 border-b border-gray-200 bg-gray-50 print:hidden">
+        <div className="flex justify-between items-center p-4 border-b border-gray-200 bg-gray-50 no-print">
             <h2 className="font-bold text-lg text-gray-800 font-brand">Fatura Önizleme</h2>
             <div className="flex gap-2">
                 <button onClick={() => window.print()} className="bg-[#1A1A1A] text-white px-5 py-2 rounded-lg text-sm font-bold hover:bg-black transition-colors flex items-center gap-2 shadow-sm">
