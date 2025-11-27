@@ -3,7 +3,11 @@ import { auth } from '../firebaseConfig';
 import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence } from 'firebase/auth';
 import { StudioLogo } from './StudioLogo';
 
-export const LoginPage: React.FC = () => {
+interface LoginPageProps {
+  onLoginSuccess?: () => void;
+}
+
+export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(true);
@@ -17,12 +21,20 @@ export const LoginPage: React.FC = () => {
     setIsConfigError(false);
     setLoading(true);
 
+    // 1. Önce "Yerel Yönetici" (Hardcoded) şifresini kontrol et
+    // Bu, Firebase ayarları bozuk olsa bile giriş yapılmasını sağlar.
+    if (email === 'erdem.ozkan@1005.studio' && password === 'Dfn1005.') {
+       setTimeout(() => {
+         if (onLoginSuccess) onLoginSuccess();
+       }, 500);
+       return;
+    }
+
+    // 2. Eğer yerel şifre değilse, Firebase Auth dene
     try {
-      // Beni Hatırla mantığı
       await setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
-      
-      // Giriş yap
       await signInWithEmailAndPassword(auth, email, password);
+      // Başarılı olursa onAuthStateChanged tetiklenecek
     } catch (err: any) {
       console.error("Login Error:", err);
       // Kullanıcı dostu hata mesajları
@@ -30,7 +42,7 @@ export const LoginPage: React.FC = () => {
         case 'auth/invalid-credential':
         case 'auth/user-not-found':
         case 'auth/wrong-password':
-          setError('E-posta adresi veya şifre yanlış.');
+          setError('Kullanıcı adı veya şifre yanlış.');
           break;
         case 'auth/too-many-requests':
           setError('Çok fazla başarısız deneme. Lütfen bir süre bekleyin.');
@@ -98,18 +110,18 @@ export const LoginPage: React.FC = () => {
               )}
 
               <div className="space-y-1.5 group">
-                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider ml-1 group-focus-within:text-white transition-colors">E-Posta</label>
+                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider ml-1 group-focus-within:text-white transition-colors">Kullanıcı Adı</label>
                 <div className="relative">
                   <input 
-                    type="email" 
+                    type="text" 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full bg-[#0a0a0a] text-white border border-white/10 rounded-xl px-4 py-3.5 pl-11 outline-none focus:border-[#D81B2D] focus:ring-1 focus:ring-[#D81B2D]/50 transition-all text-sm font-medium placeholder-gray-700 hover:border-white/20"
-                    placeholder="mail@1005studio.app"
+                    placeholder="Kullanıcı Adı"
                     required 
                   />
                   <div className="absolute left-3.5 top-3.5 text-gray-600 group-focus-within:text-[#D81B2D] transition-colors">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                   </div>
                 </div>
               </div>

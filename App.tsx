@@ -56,8 +56,11 @@ const LayoutIcon = () => <svg width="32" height="32" viewBox="0 0 24 24" fill="n
 
 const App: React.FC = () => {
   // -- Auth State --
-  const [user, setUser] = useState<User | null>(null);
+  const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
+  
+  // Custom Local Auth State (B Planı için)
+  const [isLocalAuth, setIsLocalAuth] = useState(() => localStorage.getItem('studio_user') === 'true');
 
   // -- App State --
   const [videos, setVideos] = useState<VideoProject[]>([]);
@@ -105,7 +108,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+      setFirebaseUser(currentUser);
       setAuthLoading(false);
     });
     return () => unsubscribe();
@@ -122,12 +125,25 @@ const App: React.FC = () => {
   }, [isDarkMode]);
 
   const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
-  const handleLogout = () => signOut(auth);
+
+  // AUTH HANDLERS
+  const handleLocalLogin = () => {
+    localStorage.setItem('studio_user', 'true');
+    setIsLocalAuth(true);
+  };
+
+  const handleLogout = () => {
+    signOut(auth).catch(() => {});
+    localStorage.removeItem('studio_user');
+    setIsLocalAuth(false);
+  };
+
+  const isAuthenticated = firebaseUser !== null || isLocalAuth;
 
   const [expandedWeeks, setExpandedWeeks] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    if (!user) return; // Only fetch if logged in
+    if (!isAuthenticated) return; // Only fetch if logged in
 
     const refs = [
       { ref: ref(db, 'videos'), setter: setVideos },
@@ -155,7 +171,7 @@ const App: React.FC = () => {
     });
 
     return () => { unsubscribers.forEach(unsub => unsub()); periodUnsub(); };
-  }, [user]); // Re-run when user state changes
+  }, [isAuthenticated]); // Re-run when auth state changes
 
   const handleAddVideo = (date: string, title: string, quantity: number, status: VideoStatus, type: VideoType, productStatus: ProductStatus, notes: string) => {
     if (editingVideo) {
@@ -404,7 +420,7 @@ const App: React.FC = () => {
   const netProfit = totalInvoiceAmount - monthlySubscriptionCost;
 
   // -- LOADING SCREEN --
-  if (authLoading) {
+  if (authLoading && !isLocalAuth) {
      return (
         <div className="min-h-screen flex items-center justify-center bg-[#F8F9FA] dark:bg-[#050505] transition-colors">
            <div className="flex flex-col items-center">
@@ -422,8 +438,8 @@ const App: React.FC = () => {
   }
 
   // -- AUTH GUARD --
-  if (!user) {
-     return <LoginPage />;
+  if (!isAuthenticated) {
+     return <LoginPage onLoginSuccess={handleLocalLogin} />;
   }
 
   return (
