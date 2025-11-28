@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { VideoProject, VideoStatus, VideoType, MONTHS_TR, FilterState, PROJECT_PRICES, ToDoItem, EquipmentItem, SubscriptionItem, ProductStatus, GalleryItem, LifestyleItem, DocumentItem } from './types';
 import { StatusBadge } from './components/StatusBadge';
@@ -667,8 +668,94 @@ const App: React.FC = () => {
       </div>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
-        {/* -- Table -- */}
-        <div className="bg-white dark:bg-[#1E1E1E] rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden animate-slide-up">
+        {/* -- MOBILE CARD LIST (Visible only on mobile) -- */}
+        <div className="md:hidden space-y-6 pb-24">
+          {groupedVideos.map((group) => (
+            <div key={group.weekLabel} className="space-y-3">
+              {/* Sticky Week Header */}
+              <div 
+                onClick={() => toggleWeek(group.weekLabel)}
+                className="flex items-center justify-between bg-white dark:bg-[#1E1E1E] p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 sticky top-20 z-30 active:scale-[0.98] transition-transform"
+              >
+                <div className="flex items-center gap-3">
+                   <div className={`p-1.5 rounded-full ${expandedWeeks[group.weekLabel] ? 'bg-[#D81B2D] text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-500'}`}>
+                      {expandedWeeks[group.weekLabel] ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                   </div>
+                   <span className="text-xs font-extrabold text-gray-900 dark:text-white tracking-wide">{group.weekLabel}</span>
+                </div>
+                <span className="text-[10px] font-bold bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-gray-500">{group.items.length}</span>
+              </div>
+
+              {/* Cards */}
+              {expandedWeeks[group.weekLabel] && (
+                <div className="space-y-3">
+                  {group.items.map((video) => {
+                     const isDimmed = video.status === VideoStatus.CANCELLED || video.status === VideoStatus.REPEAT;
+                     return (
+                       <div key={video.id} className={`bg-white dark:bg-[#1E1E1E] rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 relative overflow-hidden transition-all ${isDimmed ? 'opacity-60' : ''}`}>
+                          {video.isCompleted && !isDimmed && (
+                             <div className="absolute inset-0 bg-white/50 dark:bg-black/50 z-10 pointer-events-none" />
+                          )}
+                          
+                          {/* Top Row: Date & Status */}
+                          <div className="flex justify-between items-start mb-3 relative z-20">
+                             <div className="flex flex-col">
+                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">
+                                   {new Date(video.date).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', weekday: 'short' })}
+                                </span>
+                                <h4 className={`text-sm font-bold leading-tight ${isDimmed ? 'line-through text-gray-400' : 'text-gray-900 dark:text-white'}`}>
+                                   {video.title}
+                                </h4>
+                             </div>
+                             <StatusBadge status={video.status} />
+                          </div>
+
+                          {/* Middle Row: Type & Quantity */}
+                          <div className="flex items-center gap-2 mb-4 relative z-20">
+                             <span className={`text-[10px] font-bold px-2 py-1 rounded border uppercase ${
+                                video.type === VideoType.VIDEO ? 'text-blue-600 border-blue-200 bg-blue-50' : 
+                                video.type === VideoType.ANIMATION ? 'text-purple-600 border-purple-200 bg-purple-50' :
+                                video.type === VideoType.LIFESTYLE ? 'text-teal-600 border-teal-200 bg-teal-50' :
+                                video.type === VideoType.RED_ACTUAL ? 'text-red-600 border-red-200 bg-red-50' : 'text-orange-600 border-orange-200 bg-orange-50'
+                             }`}>
+                                {video.type}
+                             </span>
+                             <span className="text-xs font-mono font-bold text-gray-400">x{video.quantity}</span>
+                             {video.notes && <span className="text-yellow-500"><StickyNoteIcon /></span>}
+                          </div>
+
+                          {/* Actions Grid */}
+                          <div className="grid grid-cols-4 gap-2 pt-3 border-t border-gray-100 dark:border-gray-800 relative z-20">
+                             <button onClick={() => toggleProductStatus(video.id)} className={`col-span-1 flex flex-col items-center justify-center p-2 rounded-xl border transition-all ${video.productStatus === ProductStatus.ARRIVED ? 'bg-green-50 border-green-200 text-green-600' : 'bg-red-50 border-red-100 text-red-400'}`}>
+                                <BoxIcon />
+                             </button>
+                             <button onClick={() => toggleInvoiced(video.id)} className={`col-span-1 flex flex-col items-center justify-center p-2 rounded-xl border transition-all ${video.isInvoiced ? 'bg-emerald-50 border-emerald-200 text-emerald-600' : 'bg-gray-50 border-gray-200 text-gray-300'}`}>
+                                <BillIcon />
+                             </button>
+                             <button onClick={() => toggleComplete(video.id)} className={`col-span-1 flex flex-col items-center justify-center p-2 rounded-xl border transition-all ${video.isCompleted ? 'bg-green-500 border-green-600 text-white' : 'bg-gray-50 border-gray-200 text-gray-300'}`}>
+                                <CheckIcon />
+                             </button>
+                             <button onClick={() => handleEdit(video)} className="col-span-1 flex flex-col items-center justify-center p-2 rounded-xl border border-gray-200 dark:border-gray-700 text-blue-500 bg-white dark:bg-[#252525]">
+                                <EditIcon />
+                             </button>
+                          </div>
+                       </div>
+                     );
+                  })}
+                </div>
+              )}
+            </div>
+          ))}
+          {filteredVideos.length === 0 && (
+             <div className="flex flex-col items-center justify-center py-20 text-center opacity-50">
+                <p className="font-bold text-gray-900 dark:text-white">Proje Yok</p>
+                <p className="text-sm text-gray-500">Bu dönem için kayıtlı proje bulunamadı.</p>
+             </div>
+          )}
+        </div>
+
+        {/* -- DESKTOP TABLE VIEW (Hidden on mobile) -- */}
+        <div className="hidden md:block bg-white dark:bg-[#1E1E1E] rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden animate-slide-up">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse whitespace-nowrap">
               <thead className="bg-gray-50/80 dark:bg-[#252525]/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 shadow-sm relative z-10">
