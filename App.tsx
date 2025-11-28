@@ -106,15 +106,17 @@ const App: React.FC = () => {
   });
 
   useEffect(() => {
-    // Check local auth
+    // Check local auth backdoor
     const local = localStorage.getItem('1005_auth');
     if (local === 'true') {
         setIsLocalAuth(true);
         setAuthLoading(false);
     }
 
+    // Check Firebase Auth state
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setFirebaseUser(currentUser);
+      // Only stop loading if we haven't already authenticated via local backdoor
       if (!local) setAuthLoading(false);
     });
     return () => unsubscribe();
@@ -133,12 +135,16 @@ const App: React.FC = () => {
   const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
 
   // AUTH HANDLERS
-  const handleLogout = () => {
-    signOut(auth).catch(() => {});
-    localStorage.removeItem('1005_auth');
-    setIsLocalAuth(false);
-    // Reload to clear state
-    window.location.reload();
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      localStorage.removeItem('1005_auth');
+      setIsLocalAuth(false);
+      // Hard reload to clear any state/memory
+      window.location.reload();
+    } catch (error) {
+      console.error("Logout error", error);
+    }
   };
 
   const handleLocalLoginSuccess = () => {
@@ -440,6 +446,7 @@ const App: React.FC = () => {
                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-150"></div>
                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-300"></div>
               </div>
+              <p className="mt-4 text-xs font-bold text-gray-400 uppercase tracking-widest animate-pulse">Oturum Kontrol Ediliyor...</p>
            </div>
         </div>
      );
