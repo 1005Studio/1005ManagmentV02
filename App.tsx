@@ -140,6 +140,11 @@ const App: React.FC = () => {
     window.location.reload();
   };
 
+  const handleLocalLoginSuccess = () => {
+    localStorage.setItem('1005_auth', 'true');
+    setIsLocalAuth(true);
+  };
+
   const isAuthenticated = firebaseUser !== null || isLocalAuth;
 
   const [expandedWeeks, setExpandedWeeks] = useState<Record<string, boolean>>({});
@@ -441,7 +446,7 @@ const App: React.FC = () => {
 
   // -- AUTH GUARD --
   if (!isAuthenticated) {
-     return <LoginPage />;
+     return <LoginPage onLoginSuccess={handleLocalLoginSuccess} />;
   }
 
   return (

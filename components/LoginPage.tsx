@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { auth } from '../firebaseConfig';
+import { auth, firebaseConfig } from '../firebaseConfig';
 import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence } from 'firebase/auth';
 import { StudioLogo } from './StudioLogo';
 
@@ -25,14 +25,18 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
     // Eğer Firebase çalışmıyorsa bu yöntemle giriş yapılabilir.
     // Kullanıcı adı: erdem (veya tam mail)
     // Şifre: Dfn1005.
-    if (
-        (email.toLowerCase().trim() === 'erdem' || email.trim() === 'erdem.ozkan@1005.studio') && 
-        password === 'Dfn1005.'
-    ) {
+    const isErdem = email.toLowerCase().trim().includes('erdem') || email.trim().includes('1005');
+    
+    if (isErdem && password === 'Dfn1005.') {
         // Local auth flag set et
         localStorage.setItem('1005_auth', 'true');
-        // Sayfayı yenile ki App.tsx local auth'u görsün
-        window.location.reload();
+        
+        // Callback varsa çağır (App.tsx state'ini günceller), yoksa reload et
+        if (onLoginSuccess) {
+            onLoginSuccess();
+        } else {
+            window.location.reload();
+        }
         return;
     }
 
@@ -42,26 +46,39 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
       await signInWithEmailAndPassword(auth, email, password);
       // Başarılı olursa onAuthStateChanged tetiklenecek
     } catch (err: any) {
-      console.error("Login Error:", err);
+      console.error("Login Error Code:", err.code);
+      console.error("Login Error Message:", err.message);
+      
       // Kullanıcı dostu hata mesajları
       switch (err.code) {
-        case 'auth/invalid-credential':
+        case 'auth/operation-not-allowed':
+          setError('Email/Şifre ile giriş yöntemi Firebase panelinde kapalı.');
+          setIsConfigError(true);
+          break;
         case 'auth/user-not-found':
+          setError('Bu kullanıcı bulunamadı.');
+          break;
         case 'auth/wrong-password':
-          setError('Kullanıcı adı veya şifre yanlış.');
+          setError('Şifre hatalı.');
+          break;
+        case 'auth/invalid-credential':
+          setError('Kullanıcı adı veya şifre geçersiz.');
           break;
         case 'auth/too-many-requests':
           setError('Çok fazla başarısız deneme. Lütfen bir süre bekleyin.');
           break;
         case 'auth/configuration-not-found':
-          setError('Sunucu hatası: Giriş yöntemi aktif değil. Firebase panelinden açmalısınız.');
+          setError('Konfigürasyon hatası. Firebase proje ayarlarını kontrol edin.');
           setIsConfigError(true);
           break;
         case 'auth/network-request-failed':
           setError('İnternet bağlantınızı kontrol edin.');
           break;
+        case 'auth/invalid-email':
+          setError('Geçersiz e-posta formatı.');
+          break;
         default:
-          setError(`Giriş yapılamadı. (${err.code})`);
+          setError(`Giriş yapılamadı. Hata Kodu: ${err.code}`);
       }
       setLoading(false);
     }
@@ -77,7 +94,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03]"></div>
       </div>
 
-      <div className="w-full max-w-[420px] p-6 relative z-10 animate-fade-in">
+      <div className="w-full max-w-[420px] p-6 relative z-10 animate-fade-in flex flex-col gap-4">
         <div className="bg-[#121212]/80 backdrop-blur-xl rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-white/5 overflow-hidden ring-1 ring-white/10">
           
           {/* Header */}
@@ -182,6 +199,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
              <p className="text-[9px] text-gray-500 font-bold uppercase tracking-widest">Sistem Aktif ve Güvenli</p>
           </div>
+        </div>
+
+        {/* Debug Info */}
+        <div className="bg-[#121212]/50 p-3 rounded-xl border border-white/5 text-[9px] font-mono text-gray-600 break-all select-all">
+            <p><span className="text-gray-500">Project:</span> {firebaseConfig.projectId}</p>
+            <p><span className="text-gray-500">Auth:</span> {firebaseConfig.authDomain}</p>
+            <p><span className="text-gray-500">API:</span> {firebaseConfig.apiKey ? '******' + firebaseConfig.apiKey.slice(-4) : 'N/A'}</p>
         </div>
       </div>
     </div>
