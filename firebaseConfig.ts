@@ -1,9 +1,9 @@
+
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
-import { getAuth } from "firebase/auth";
 
 // 1005 Studio Firebase Konfigürasyonu
-export const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyAG5Ws3yDMRI-B-2EOyy3dOckwgBNnZmLY",
   authDomain: "studio-d8e04.firebaseapp.com",
   databaseURL: "https://studio-d8e04-default-rtdb.europe-west1.firebasedatabase.app",
@@ -18,6 +18,3 @@ const app = initializeApp(firebaseConfig);
 
 // Veritabanı servisini dışarı aktar
 export const db = getDatabase(app);
-
-// Kimlik doğrulama servisini dışarı aktar
-export const auth = getAuth(app);

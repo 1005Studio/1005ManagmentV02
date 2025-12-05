@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { VideoStatus, VideoType, VideoProject, ProductStatus } from '../types';
 
@@ -49,8 +48,8 @@ export const AddVideoModal: React.FC<AddVideoModalProps> = ({ isOpen, onClose, o
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/60 backdrop-blur-md p-0 md:p-4 transition-all animate-in fade-in duration-200">
-      <div className="bg-white rounded-t-2xl md:rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden border border-gray-100 flex flex-col h-[90vh] md:h-auto md:max-h-[90vh] animate-enter-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4 transition-all animate-in fade-in duration-200">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden border border-gray-100 flex flex-col max-h-[90vh] animate-enter-modal">
         <div className="flex justify-between items-center px-6 py-5 border-b border-gray-100 bg-gray-50">
           <div>
             <h2 className="text-xl font-bold text-gray-900 font-brand">{initialData ? 'Projeyi Düzenle' : 'Yeni Proje Oluştur'}</h2>
@@ -60,7 +59,7 @@ export const AddVideoModal: React.FC<AddVideoModalProps> = ({ isOpen, onClose, o
           </button>
         </div>
         
-        <div className="p-6 overflow-y-auto flex-1">
+        <div className="p-6 overflow-y-auto">
           <div className="space-y-6">
             <div>
               <label className="block text-xs font-bold text-gray-900 uppercase mb-2 tracking-wider">Proje Türü</label>
@@ -152,7 +151,7 @@ export const AddVideoModal: React.FC<AddVideoModalProps> = ({ isOpen, onClose, o
           </div>
         </div>
 
-        <div className="flex justify-end gap-3 px-6 py-5 border-t border-gray-100 bg-gray-50 pb-safe">
+        <div className="flex justify-end gap-3 px-6 py-5 border-t border-gray-100 bg-gray-50">
             <button 
               onClick={onClose} 
               className="px-6 py-2.5 text-gray-700 font-medium hover:bg-gray-200 rounded-lg transition-colors text-sm"

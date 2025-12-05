@@ -11,33 +11,33 @@ import { LifestyleGallery } from './components/LifestyleGallery';
 import { DocumentsModal } from './components/DocumentsModal';
 import { WeekInvoiceModal } from './components/WeekInvoiceModal';
 import { WeekLogisticsModal } from './components/WeekLogisticsModal';
+import { CalendarModal } from './components/CalendarModal';
 import { DashboardCharts } from './components/DashboardCharts';
-import { db, auth } from './firebaseConfig';
+import { db } from './firebaseConfig';
 import { ref, onValue, push, set, update, remove } from "firebase/database";
-import { onAuthStateChanged, signOut, User } from 'firebase/auth';
 import { StudioLogo } from './components/StudioLogo';
 import { BimLogo } from './components/BimLogo';
-import { LoginPage } from './components/LoginPage';
 
 // --- Icons ---
 const PlusIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>;
 const TrashIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>;
-const CheckIcon = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>;
+const CheckIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>;
 const CheckCircleIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
 const BillIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M16 2v4h4"/><path d="M8 11h8"/><path d="M8 15h6"/><path d="M9 2v20"/></svg>;
 const EditIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>;
 const ChevronDownIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>;
 const ChevronUpIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m18 15-6-6-6 6"/></svg>;
 const PrintIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>;
-const ListIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>;
+const ListIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>;
 const DatabaseIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>;
 const ChevronLeftIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>;
 const ChevronRightIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>;
-const CameraIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>;
-const CreditCardIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>;
-const BoxIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>;
-const SearchIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>;
-const HomeIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
+const CameraIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>;
+const CreditCardIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>;
+const BoxIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>;
+const SearchIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>;
+const FilterIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>;
+const HomeIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
 const GalleryIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>;
 const GridIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>;
 const AlertIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>;
@@ -48,6 +48,10 @@ const FileTextIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill=
 const ChartIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="8" y1="12" x2="8" y2="17"/><line x1="12" y1="17" x2="12" y2="10"/><line x1="16" y1="17" x2="16" y2="7"/></svg>;
 const StickyNoteIcon = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/><path d="M15 3v6h6"/></svg>;
 const LogOutIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>;
+const CalendarIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>;
+const DownloadCloudIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><polyline points="12 12 12 21"/><polyline points="8 17 12 21 16 17"/></svg>;
+const UploadCloudIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><polyline points="12 12 12 21"/><polyline points="12 12 16 16"/><polyline points="12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21" transform="rotate(180 12 16.5)"/></svg>;
+const CloseIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
 
 // New Icons for Stats
 const FilmIcon = () => <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>;
@@ -56,11 +60,6 @@ const ApertureIcon = () => <svg width="32" height="32" viewBox="0 0 24 24" fill=
 const LayoutIcon = () => <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="3 9h18"/><path d="M9 21V9"/></svg>;
 
 const App: React.FC = () => {
-  // -- Auth State --
-  const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
-  const [isLocalAuth, setIsLocalAuth] = useState(false);
-  const [authLoading, setAuthLoading] = useState(true);
-  
   // -- App State --
   const [videos, setVideos] = useState<VideoProject[]>([]);
   const [toDoItems, setToDoItems] = useState<ToDoItem[]>([]);
@@ -79,6 +78,7 @@ const App: React.FC = () => {
   const [isLifestyleOpen, setIsLifestyleOpen] = useState(false);
   const [isDocumentsOpen, setIsDocumentsOpen] = useState(false);
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   
   const [isWeekInvoiceOpen, setIsWeekInvoiceOpen] = useState(false);
   const [isWeekLogisticsOpen, setIsWeekLogisticsOpen] = useState(false);
@@ -95,6 +95,9 @@ const App: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [productFilterState, setProductFilterState] = useState<'ALL' | 'ARRIVED' | 'NOT_ARRIVED'>('ALL');
   
+  // Mobile Specific
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [activeTab, setActiveTab] = useState<'home'|'todo'|'equipment'|'subscription'>('home');
 
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -105,22 +108,7 @@ const App: React.FC = () => {
     return false;
   });
 
-  useEffect(() => {
-    // Check local auth backdoor
-    const local = localStorage.getItem('1005_auth');
-    if (local === 'true') {
-        setIsLocalAuth(true);
-        setAuthLoading(false);
-    }
-
-    // Check Firebase Auth state
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setFirebaseUser(currentUser);
-      // Only stop loading if we haven't already authenticated via local backdoor
-      if (!local) setAuthLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -134,31 +122,25 @@ const App: React.FC = () => {
 
   const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
 
-  // AUTH HANDLERS
   const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      localStorage.removeItem('1005_auth');
-      setIsLocalAuth(false);
-      // Hard reload to clear any state/memory
-      window.location.reload();
-    } catch (error) {
-      console.error("Logout error", error);
-    }
+    window.location.reload();
   };
-
-  const handleLocalLoginSuccess = () => {
-    localStorage.setItem('1005_auth', 'true');
-    setIsLocalAuth(true);
-  };
-
-  const isAuthenticated = firebaseUser !== null || isLocalAuth;
 
   const [expandedWeeks, setExpandedWeeks] = useState<Record<string, boolean>>({});
 
+  // Auto Backup
   useEffect(() => {
-    if (!isAuthenticated) return; // Only fetch if logged in
+    const dataToBackup = {
+        videos, todos: toDoItems, equipments: equipmentItems, subscriptions: subscriptionItems,
+        timestamp: Date.now()
+    };
+    const timer = setTimeout(() => {
+        localStorage.setItem('auto_backup', JSON.stringify(dataToBackup));
+    }, 2000); 
+    return () => clearTimeout(timer);
+  }, [videos, toDoItems, equipmentItems, subscriptionItems]);
 
+  useEffect(() => {
     const refs = [
       { ref: ref(db, 'videos'), setter: setVideos },
       { ref: ref(db, 'todos'), setter: setToDoItems },
@@ -185,8 +167,73 @@ const App: React.FC = () => {
     });
 
     return () => { unsubscribers.forEach(unsub => unsub()); periodUnsub(); };
-  }, [isAuthenticated]); // Re-run when auth state changes
+  }, []); 
 
+  // --- EXPORT/IMPORT ---
+  const handleExportData = () => {
+    const data = {
+      videos, todos: toDoItems, equipments: equipmentItems, subscriptions: subscriptionItems,
+      thisFridayGallery: galleryItems, lifestyleGallery: lifestyleItems, documents: documentItems,
+      meta: { exportedAt: new Date().toISOString(), version: '2.0' }
+    };
+    const jsonString = JSON.stringify(data, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const href = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = `1005_Studio_Backup_${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleImportData = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const json = JSON.parse(event.target?.result as string);
+        if (confirm("Yükleme Modu:\n\n'Tamam' -> YÜKLE VE GÜNCELLE\n'İptal' -> VAZGEÇ")) {
+              
+              // 1. OPTIMISTIC UI UPDATE (Immediate)
+              if(json.videos && Array.isArray(json.videos)) setVideos(json.videos);
+              if(json.todos && Array.isArray(json.todos)) setToDoItems(json.todos);
+              if(json.equipments && Array.isArray(json.equipments)) setEquipmentItems(json.equipments);
+              if(json.subscriptions && Array.isArray(json.subscriptions)) setSubscriptionItems(json.subscriptions);
+              if(json.thisFridayGallery && Array.isArray(json.thisFridayGallery)) setGalleryItems(json.thisFridayGallery);
+              if(json.lifestyleGallery && Array.isArray(json.lifestyleGallery)) setLifestyleItems(json.lifestyleGallery);
+              if(json.documents && Array.isArray(json.documents)) setDocumentItems(json.documents);
+
+              // 2. FIREBASE SYNC
+              const updates: any = {};
+              const arrayToObject = (arr: any[]) => arr.reduce((acc, item) => { const { id, ...rest } = item; acc[id] = rest; return acc; }, {});
+              if(json.videos) updates['videos'] = arrayToObject(json.videos);
+              if(json.todos) updates['todos'] = arrayToObject(json.todos);
+              if(json.equipments) updates['equipments'] = arrayToObject(json.equipments);
+              if(json.subscriptions) updates['subscriptions'] = arrayToObject(json.subscriptions);
+              if(json.thisFridayGallery) updates['thisFridayGallery'] = arrayToObject(json.thisFridayGallery);
+              if(json.lifestyleGallery) updates['lifestyleGallery'] = arrayToObject(json.lifestyleGallery);
+              if(json.documents) updates['documents'] = arrayToObject(json.documents);
+              
+              // Don't wait for it to alert success, let UI be responsive
+              update(ref(db), updates).then(() => {
+                  console.log("Synced to Firebase");
+              }).catch(err => {
+                  console.error("Firebase Sync Error", err);
+                  alert("Veriler ekrana yüklendi ancak sunucuya yazılamadı (İnternet veya Yetki sorunu).");
+              });
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Dosya okunamadı veya format hatalı.');
+      }
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+    reader.readAsText(file);
+  };
+
+  // --- ACTIONS ---
   const handleAddVideo = (date: string, title: string, quantity: number, status: VideoStatus, type: VideoType, productStatus: ProductStatus, notes: string) => {
     if (editingVideo) {
       update(ref(db, `videos/${editingVideo.id}`), { date, title, quantity, status, type, productStatus, notes })
@@ -196,93 +243,41 @@ const App: React.FC = () => {
     }
     setIsModalOpen(false);
   };
-
-  const handleDelete = (id: string) => confirm('Silinsin mi?') && remove(ref(db, `videos/${id}`));
+  const handleDelete = (id: string) => { if(confirm('Silinsin mi?')) remove(ref(db, `videos/${id}`)); };
   const toggleComplete = (id: string) => {
     const v = videos.find(v => v.id === id);
     if (v) {
       const newState = !v.isCompleted;
-      const updates: any = { isCompleted: newState };
-      if (newState) updates.status = VideoStatus.COMPLETED;
+      const updates: any = { isCompleted: newState, status: newState ? VideoStatus.COMPLETED : v.status };
       update(ref(db, `videos/${id}`), updates);
     }
   };
-  const toggleInvoiced = (id: string) => {
-    const v = videos.find(v => v.id === id);
-    if (v) update(ref(db, `videos/${id}`), { isInvoiced: !v.isInvoiced });
-  };
-  const toggleProductStatus = (id: string) => {
-    const v = videos.find(v => v.id === id);
-    if (v) update(ref(db, `videos/${id}`), { productStatus: v.productStatus === ProductStatus.ARRIVED ? ProductStatus.NOT_ARRIVED : ProductStatus.ARRIVED });
-  };
+  const toggleInvoiced = (id: string) => { const v = videos.find(v => v.id === id); if (v) update(ref(db, `videos/${id}`), { isInvoiced: !v.isInvoiced }); };
+  const toggleProductStatus = (id: string) => { const v = videos.find(v => v.id === id); if (v) update(ref(db, `videos/${id}`), { productStatus: v.productStatus === ProductStatus.ARRIVED ? ProductStatus.NOT_ARRIVED : ProductStatus.ARRIVED }); };
   const handleStatusChange = (id: string, newStatus: VideoStatus) => {
-    const updates: any = { status: newStatus };
-    if (newStatus === VideoStatus.COMPLETED) updates.isCompleted = true;
-    else updates.isCompleted = false;
+    const updates: any = { status: newStatus, isCompleted: newStatus === VideoStatus.COMPLETED };
     update(ref(db, `videos/${id}`), updates);
   };
+  const handleEdit = (video: VideoProject) => { setEditingVideo(video); setIsModalOpen(true); };
 
-  const handleEdit = (video: VideoProject) => {
-    setEditingVideo(video);
-    setIsModalOpen(true);
-  };
-
-  const handleAddGalleryItem = (base64: string) => {
-    push(ref(db, 'thisFridayGallery'), { imageUrl: base64, createdAt: Date.now(), isCompleted: false });
-  };
-  const handleDeleteGalleryItem = (id: string) => {
-    if(confirm('Bu görseli silmek istediğinize emin misiniz?')) {
-      remove(ref(db, `thisFridayGallery/${id}`));
-    }
-  };
-  const toggleGalleryItemComplete = (id: string) => {
-     const item = galleryItems.find(i => i.id === id);
-     if(item) {
-        update(ref(db, `thisFridayGallery/${id}`), { isCompleted: !item.isCompleted });
-     }
-  }
-
-  const handleAddLifestyleItem = (base64: string) => {
-    push(ref(db, 'lifestyleGallery'), { imageUrl: base64, createdAt: Date.now(), isCompleted: false });
-  };
-  const handleDeleteLifestyleItem = (id: string) => {
-    if(confirm('Bu ilham görselini silmek istediğinize emin misiniz?')) {
-      remove(ref(db, `lifestyleGallery/${id}`));
-    }
-  };
-
-  const handleAddDocument = (name: string, category: string, fileUrl: string, fileType: 'pdf' | 'image') => {
-    push(ref(db, 'documents'), { name, category, fileUrl, fileType, createdAt: Date.now() });
-  };
-  const handleDeleteDocument = (id: string) => {
-    if(confirm('Bu evrakı silmek istediğinize emin misiniz?')) {
-      remove(ref(db, `documents/${id}`));
-    }
-  };
-
-  const toggleTypeFilter = (type: VideoType) => {
-    if (activeTypeFilter === type) {
-      setActiveTypeFilter(null);
-    } else {
-      setActiveTypeFilter(type);
-    }
-  };
-
+  // New Handlers
   const handleAddToDo = (text: string) => push(ref(db, 'todos'), { text, isCompleted: false, createdAt: Date.now() });
-  const handleToggleToDo = (id: string) => {
-    const item = toDoItems.find(t => t.id === id);
-    if (item) update(ref(db, `todos/${id}`), { isCompleted: !item.isCompleted });
-  };
+  const handleToggleToDo = (id: string) => { const item = toDoItems.find(i => i.id === id); if(item) update(ref(db, `todos/${id}`), { isCompleted: !item.isCompleted }); };
   const handleDeleteToDo = (id: string) => remove(ref(db, `todos/${id}`));
-
   const handleAddEquipment = (name: string, category: string) => push(ref(db, 'equipments'), { name, category });
-  const handleDeleteEquipment = (id: string) => remove(ref(db, `equipments/${id}`));
+  const handleDeleteEquipment = (id: string) => { if(confirm('Silinsin mi?')) remove(ref(db, `equipments/${id}`)); };
+  const handleAddSubscription = (name: string, price: number, currency: 'TL'|'USD'|'EUR', cycle: 'Aylık'|'Yıllık') => push(ref(db, 'subscriptions'), { name, price, currency, cycle });
+  const handleDeleteSubscription = (id: string) => { if(confirm('Silinsin mi?')) remove(ref(db, `subscriptions/${id}`)); };
+  const handleAddGalleryItem = (imageUrl: string) => push(ref(db, 'thisFridayGallery'), { imageUrl, isCompleted: false, createdAt: Date.now() });
+  const handleDeleteGalleryItem = (id: string) => { if(confirm('Silinsin mi?')) remove(ref(db, `thisFridayGallery/${id}`)); };
+  const toggleGalleryItemComplete = (id: string) => { const item = galleryItems.find(i => i.id === id); if(item) update(ref(db, `thisFridayGallery/${id}`), { isCompleted: !item.isCompleted }); };
+  const handleAddLifestyleItem = (imageUrl: string) => push(ref(db, 'lifestyleGallery'), { imageUrl, createdAt: Date.now() });
+  const handleDeleteLifestyleItem = (id: string) => { if(confirm('Silinsin mi?')) remove(ref(db, `lifestyleGallery/${id}`)); };
+  const handleAddDocument = (name: string, category: string, fileUrl: string, fileType: 'pdf' | 'image') => push(ref(db, 'documents'), { name, category, fileUrl, fileType, createdAt: Date.now() });
+  const handleDeleteDocument = (id: string) => { if(confirm('Silinsin mi?')) remove(ref(db, `documents/${id}`)); };
 
-  const handleAddSubscription = (name: string, price: number, currency: 'TL'|'USD'|'EUR', cycle: 'Aylık'|'Yıllık') => {
-    push(ref(db, 'subscriptions'), { name, price, currency, cycle });
-  };
-  const handleDeleteSubscription = (id: string) => remove(ref(db, `subscriptions/${id}`));
-
+  // Data Filtering
+  const toggleTypeFilter = (type: VideoType) => activeTypeFilter === type ? setActiveTypeFilter(null) : setActiveTypeFilter(type);
   const handleYearChange = (inc: number) => setFilter(p => ({ ...p, year: p.year + inc }));
   const handleMonthChange = (inc: number) => {
     let newMonth = filter.month + inc;
@@ -292,66 +287,59 @@ const App: React.FC = () => {
     setFilter({ month: newMonth, year: newYear });
   };
   const handleCompleteMonth = () => {
-     if(filter.month === -1) {
-        alert('Tüm yıl görünümündeyken ay tamamlanamaz.');
-        return;
-     }
+     if(filter.month === -1) { alert('Tüm yıl görünümündeyken ay tamamlanamaz.'); return; }
      if(confirm(`${MONTHS_TR[filter.month]} ayını tamamlayıp bir sonraki aya geçmek istiyor musunuz?`)) {
-        let nextMonth = filter.month + 1;
-        let nextYear = filter.year;
-        if(nextMonth > 11) {
-           nextMonth = 0;
-           nextYear += 1;
-        }
+        let nextMonth = filter.month + 1; let nextYear = filter.year;
+        if(nextMonth > 11) { nextMonth = 0; nextYear += 1; }
         set(ref(db, 'settings/activePeriod'), { month: nextMonth, year: nextYear });
         setFilter({ month: nextMonth, year: nextYear });
      }
   }
-
-  const toggleWeek = (weekLabel: string) => {
-     setExpandedWeeks(prev => ({
-        ...prev,
-        [weekLabel]: !prev[weekLabel]
-     }));
-  };
-
-  const handleOpenWeekInvoice = (e: React.MouseEvent, label: string, items: VideoProject[]) => {
-      e.stopPropagation();
-      setSelectedWeekLabel(label);
-      setSelectedWeekItems(items);
-      setIsWeekInvoiceOpen(true);
-  }
-
-  const handleOpenWeekLogistics = (e: React.MouseEvent, label: string, items: VideoProject[]) => {
-    e.stopPropagation();
-    setSelectedWeekLabel(label);
-    setSelectedWeekItems(items);
-    setIsWeekLogisticsOpen(true);
-  }
+  const toggleWeek = (weekLabel: string) => setExpandedWeeks(prev => ({ ...prev, [weekLabel]: !prev[weekLabel] }));
+  const handleOpenWeekInvoice = (e: React.MouseEvent, label: string, items: VideoProject[]) => { e.stopPropagation(); setSelectedWeekLabel(label); setSelectedWeekItems(items); setIsWeekInvoiceOpen(true); }
+  const handleOpenWeekLogistics = (e: React.MouseEvent, label: string, items: VideoProject[]) => { e.stopPropagation(); setSelectedWeekLabel(label); setSelectedWeekItems(items); setIsWeekLogisticsOpen(true); }
 
   const filteredVideos = useMemo(() => {
-    return videos
-      .filter(v => {
+    const q = searchQuery.toLowerCase();
+    return videos.filter(v => {
         const d = new Date(v.date);
         const yearMatch = d.getFullYear() === filter.year;
         const monthMatch = filter.month === -1 ? true : d.getMonth() === filter.month;
-        const searchMatch = searchQuery ? v.title.toLowerCase().includes(searchQuery.toLowerCase()) : true;
         const typeMatch = activeTypeFilter ? v.type === activeTypeFilter : true;
-        
         let arrivedMatch = true;
         if (productFilterState === 'ARRIVED') arrivedMatch = v.productStatus === ProductStatus.ARRIVED;
         if (productFilterState === 'NOT_ARRIVED') arrivedMatch = v.productStatus === ProductStatus.NOT_ARRIVED;
-
+        
+        let searchMatch = true;
+        if (q) {
+            if (q === 'çekim') searchMatch = v.status === VideoStatus.SHOOTING;
+            else if (q === 'kurgu') searchMatch = v.status === VideoStatus.EDITING;
+            else if (q === 'tamam' || q === 'tamamlandı') searchMatch = v.status === VideoStatus.COMPLETED;
+            else if (q === 'revize') searchMatch = v.status === VideoStatus.REVIEW;
+            else if (q === 'geldi') searchMatch = v.productStatus === ProductStatus.ARRIVED;
+            else if (q === 'gelmedi') searchMatch = v.productStatus === ProductStatus.NOT_ARRIVED;
+            else searchMatch = v.title.toLowerCase().includes(q) || v.type.toLowerCase().includes(q) || (v.notes && v.notes.toLowerCase().includes(q)) || false;
+        }
         return yearMatch && monthMatch && searchMatch && typeMatch && arrivedMatch;
-      })
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      }).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }, [videos, filter, searchQuery, activeTypeFilter, productFilterState]);
 
   const groupedVideos = useMemo(() => {
     const groups: { weekLabel: string, items: VideoProject[], summary: string }[] = [];
     let currentWeekLabel = '';
     let currentGroup: VideoProject[] = [];
-
+    const generateSummary = (items: VideoProject[]) => {
+        const activeItems = items.filter(i => i.status !== VideoStatus.CANCELLED && i.status !== VideoStatus.REPEAT);
+        const totalCount = activeItems.reduce((acc, i) => acc + i.quantity, 0);
+        const completed = activeItems.filter(i => i.status === VideoStatus.COMPLETED).reduce((acc, i) => acc + i.quantity, 0);
+        const shooting = activeItems.filter(i => i.status === VideoStatus.SHOOTING).reduce((acc, i) => acc + i.quantity, 0);
+        const review = activeItems.filter(i => i.status === VideoStatus.REVIEW).reduce((acc, i) => acc + i.quantity, 0);
+        const details = [];
+        if (completed > 0) details.push(`${completed} TAMAM`);
+        if (shooting > 0) details.push(`${shooting} ÇEKİM`);
+        if (review > 0) details.push(`${review} REVİZE`);
+        return details.length > 0 ? `${totalCount} PROJE (${details.join(', ')})` : `${totalCount} PROJE (PLANLAMA)`;
+    };
     filteredVideos.forEach(video => {
       const date = new Date(video.date);
       const day = date.getDay() || 7; 
@@ -360,314 +348,160 @@ const App: React.FC = () => {
       const end = new Date(date);
       end.setDate(date.getDate() + 6);
       const label = `${start.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' })} - ${end.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' })} HAFTASI`.toUpperCase();
-      
       if (label !== currentWeekLabel) {
-        if (currentGroup.length > 0) {
-           const counts = currentGroup.reduce((acc, item) => {
-              if (item.status === VideoStatus.CANCELLED || item.status === VideoStatus.REPEAT) return acc;
-              acc[item.type] = (acc[item.type] || 0) + item.quantity;
-              return acc;
-           }, {} as Record<string, number>);
-           const summaryStr = Object.entries(counts).map(([t, c]) => `${c} ${t}`).join(', ');
-           groups.push({ weekLabel: currentWeekLabel, items: currentGroup, summary: summaryStr });
-        }
+        if (currentGroup.length > 0) groups.push({ weekLabel: currentWeekLabel, items: currentGroup, summary: generateSummary(currentGroup) });
         currentWeekLabel = label;
         currentGroup = [video];
       } else currentGroup.push(video);
     });
-    if (currentGroup.length > 0) {
-        const counts = currentGroup.reduce((acc, item) => {
-           if (item.status === VideoStatus.CANCELLED || item.status === VideoStatus.REPEAT) return acc;
-           acc[item.type] = (acc[item.type] || 0) + item.quantity;
-           return acc;
-        }, {} as Record<string, number>);
-        const summaryStr = Object.entries(counts).map(([t, c]) => `${c} ${t}`).join(', ');
-        groups.push({ weekLabel: currentWeekLabel, items: currentGroup, summary: summaryStr });
-    }
+    if (currentGroup.length > 0) groups.push({ weekLabel: currentWeekLabel, items: currentGroup, summary: generateSummary(currentGroup) });
     return groups;
   }, [filteredVideos]);
 
   useEffect(() => {
      const newWeeks: Record<string, boolean> = {};
-     groupedVideos.forEach(g => {
-        if (expandedWeeks[g.weekLabel] === undefined) {
-           newWeeks[g.weekLabel] = true;
-        }
-     });
-     if (Object.keys(newWeeks).length > 0) {
-        setExpandedWeeks(prev => ({ ...prev, ...newWeeks }));
-     }
+     groupedVideos.forEach(g => { if (expandedWeeks[g.weekLabel] === undefined) newWeeks[g.weekLabel] = true; });
+     if (Object.keys(newWeeks).length > 0) setExpandedWeeks(prev => ({ ...prev, ...newWeeks }));
   }, [groupedVideos]);
 
-  // Updated Invoice Amount to Exclude CANCELLED and REPEAT
   const totalInvoiceAmount = useMemo(() => filteredVideos.reduce((sum, v) => (v.isInvoiced && v.status !== VideoStatus.CANCELLED && v.status !== VideoStatus.REPEAT) ? sum + (PROJECT_PRICES[v.type] * v.quantity) : sum, 0), [filteredVideos]);
-
-  const monthlySubscriptionCost = useMemo(() => {
-     return subscriptionItems.reduce((acc, item) => {
+  const monthlySubscriptionCost = useMemo(() => subscriptionItems.reduce((acc, item) => {
         let price = item.price;
         if(item.currency === 'USD') price = item.price * 34;
         if(item.currency === 'EUR') price = item.price * 36;
         if(item.cycle === 'Yıllık') price = price / 12;
         return acc + price;
-     }, 0);
-  }, [subscriptionItems]);
-
+     }, 0), [subscriptionItems]);
   const stats = useMemo(() => {
-    // Exclude cancelled/repeat from active stats
     const activeVideos = filteredVideos.filter(v => v.status !== VideoStatus.CANCELLED && v.status !== VideoStatus.REPEAT);
-    
     return {
       activeTotal: activeVideos.length,
       arrived: activeVideos.filter(v => v.productStatus === ProductStatus.ARRIVED).length,
       notArrived: activeVideos.filter(v => v.productStatus === ProductStatus.NOT_ARRIVED).length,
-      
-      videoCount: activeVideos.filter(v => v.type === VideoType.VIDEO).length,
-      animCount: activeVideos.filter(v => v.type === VideoType.ANIMATION).length,
-      redCount: activeVideos.filter(v => v.type === VideoType.RED_ACTUAL).length,
-      lowerCount: activeVideos.filter(v => v.type === VideoType.LOWER_THIRD).length,
+      videoCount: activeVideos.filter(v => v.type === VideoType.VIDEO).reduce((a,b)=>a+b.quantity,0),
+      animCount: activeVideos.filter(v => v.type === VideoType.ANIMATION).reduce((a,b)=>a+b.quantity,0),
+      redCount: activeVideos.filter(v => v.type === VideoType.RED_ACTUAL).reduce((a,b)=>a+b.quantity,0),
+      lowerCount: activeVideos.filter(v => v.type === VideoType.LOWER_THIRD).reduce((a,b)=>a+b.quantity,0),
     };
   }, [filteredVideos]);
-
-  // Update pending calculations to exclude Cancelled/Repeat
   const pendingInvoiceCount = useMemo(() => filteredVideos.filter(v => !v.isInvoiced && v.status === VideoStatus.COMPLETED).length, [filteredVideos]);
   const missingProductCount = useMemo(() => filteredVideos.filter(v => v.productStatus === ProductStatus.NOT_ARRIVED && !v.isCompleted && v.status !== VideoStatus.CANCELLED && v.status !== VideoStatus.REPEAT).length, [filteredVideos]);
   const netProfit = totalInvoiceAmount - monthlySubscriptionCost;
 
-  // -- LOADING SCREEN --
-  if (authLoading) {
-     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#F8F9FA] dark:bg-[#050505] transition-colors">
-           <div className="flex flex-col items-center">
-              <div className="w-20 h-20 bg-[#D81B2D] rounded-2xl flex items-center justify-center animate-pulse shadow-2xl">
-                 <StudioLogo className="w-12 h-12 brightness-0 invert" />
-              </div>
-              <div className="mt-8 flex gap-2">
-                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-75"></div>
-                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-150"></div>
-                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-300"></div>
-              </div>
-              <p className="mt-4 text-xs font-bold text-gray-400 uppercase tracking-widest animate-pulse">Oturum Kontrol Ediliyor...</p>
-           </div>
-        </div>
-     );
-  }
-
-  // -- AUTH GUARD --
-  if (!isAuthenticated) {
-     return <LoginPage onLoginSuccess={handleLocalLoginSuccess} />;
-  }
-
   return (
     <div className="min-h-screen bg-[#F8F9FA] dark:bg-[#050505] pb-32 font-body text-[#1A1A1A] dark:text-gray-100 print:bg-white print:pb-0 transition-colors duration-300 animate-fade-in">
-      
-      {/* -- REFRESHED MINIMAL HEADER -- */}
-      <div className="sticky top-0 z-40 glass dark:border-b dark:border-gray-800 shadow-sm transition-all duration-300 print:hidden backdrop-blur-xl bg-white/70 dark:bg-[#050505]/70">
+      <input type="file" ref={fileInputRef} onChange={handleImportData} className="hidden" accept=".json" />
+
+      {/* --- HEADER --- */}
+      <div className="sticky top-0 z-40 glass dark:border-b dark:border-gray-800 shadow-sm transition-all duration-300 print:hidden backdrop-blur-xl bg-white/80 dark:bg-[#050505]/80">
           <header className="border-b border-gray-100/50 dark:border-gray-800/50 shadow-sm">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between items-center h-16 md:h-20">
-                {/* Logo Section */}
+                {/* Logo */}
                 <div className="flex items-center gap-4">
-                    <div className="h-8 md:h-10 hover:opacity-80 transition-opacity cursor-pointer">
-                        <StudioLogo className="h-full" />
-                    </div>
+                    <div className="h-8 md:h-10 hover:opacity-80 transition-opacity cursor-pointer"><StudioLogo className="h-full" /></div>
                 </div>
 
-                {/* Minimal Desktop Menu */}
+                {/* --- MOBILE HEADER (Visible < 768px) --- */}
+                <div className="flex md:hidden items-center gap-2">
+                    <button onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)} className="p-2.5 bg-gray-100 dark:bg-[#1E1E1E] rounded-full text-gray-700 dark:text-gray-200 shadow-sm active:scale-95 transition-transform">
+                        {isMobileSearchOpen ? <CloseIcon /> : <SearchIcon />}
+                    </button>
+                    <button onClick={() => setShowMobileFilters(!showMobileFilters)} className={`p-2.5 rounded-full shadow-sm active:scale-95 transition-transform ${showMobileFilters ? 'bg-gray-800 text-white' : 'bg-gray-100 dark:bg-[#1E1E1E] text-gray-700 dark:text-gray-200'}`}>
+                        <FilterIcon />
+                    </button>
+                </div>
+
+                {/* --- DESKTOP HEADER (Visible >= 768px) --- */}
                 <div className="hidden md:flex items-center gap-4">
-                    
-                    {/* Navigation Cluster */}
                     <div className="flex items-center p-1.5 bg-gray-100/50 dark:bg-[#1E1E1E]/50 rounded-full border border-gray-200/50 dark:border-gray-700/50">
-                        <button onClick={() => setIsDocumentsOpen(true)} className="p-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-[#2C2C2C] rounded-full transition-all" title="Evraklar">
-                            <FileTextIcon />
-                        </button>
-                        <button onClick={() => setIsGalleryOpen(true)} className="p-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-[#2C2C2C] rounded-full transition-all" title="Bu Cuma">
-                            <GalleryIcon />
-                        </button>
-                        <button onClick={() => setIsLifestyleOpen(true)} className="p-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-[#2C2C2C] rounded-full transition-all" title="Lifestyle İlham">
-                            <GridIcon />
-                        </button>
-                        <button onClick={() => setIsToDoOpen(true)} className="p-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-[#2C2C2C] rounded-full transition-all" title="Notlar">
-                            <ListIcon />
-                        </button>
-                        <button onClick={() => setIsEquipmentOpen(true)} className="p-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-[#2C2C2C] rounded-full transition-all" title="Ekipmanlar">
-                            <CameraIcon />
-                        </button>
-                        <button onClick={() => setIsSubscriptionOpen(true)} className="p-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-[#2C2C2C] rounded-full transition-all" title="Abonelikler">
-                            <CreditCardIcon />
-                        </button>
+                        <button onClick={() => setIsDocumentsOpen(true)} className="p-2.5 text-gray-500 hover:text-gray-900 dark:hover:text-white rounded-full transition-all" title="Evraklar"><FileTextIcon /></button>
+                        <button onClick={() => setIsGalleryOpen(true)} className="p-2.5 text-gray-500 hover:text-gray-900 dark:hover:text-white rounded-full transition-all" title="Bu Cuma"><GalleryIcon /></button>
+                        <button onClick={() => setIsLifestyleOpen(true)} className="p-2.5 text-gray-500 hover:text-gray-900 dark:hover:text-white rounded-full transition-all" title="Lifestyle"><GridIcon /></button>
+                        <button onClick={() => setIsToDoOpen(true)} className="p-2.5 text-gray-500 hover:text-gray-900 dark:hover:text-white rounded-full transition-all" title="Notlar"><ListIcon /></button>
+                        <button onClick={() => setIsEquipmentOpen(true)} className="p-2.5 text-gray-500 hover:text-gray-900 dark:hover:text-white rounded-full transition-all" title="Ekipmanlar"><CameraIcon /></button>
+                        <button onClick={() => setIsSubscriptionOpen(true)} className="p-2.5 text-gray-500 hover:text-gray-900 dark:hover:text-white rounded-full transition-all" title="Abonelikler"><CreditCardIcon /></button>
                     </div>
-
-                    {/* System Cluster */}
                     <div className="flex items-center gap-2">
-                        <button onClick={() => setIsDashboardOpen(!isDashboardOpen)} className={`p-2.5 rounded-full transition-all ${isDashboardOpen ? 'bg-gray-200 dark:bg-[#333] text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1E1E1E]'}`} title="İstatistikler">
-                            <ChartIcon />
-                        </button>
-                        <button onClick={toggleDarkMode} className="p-2.5 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1E1E1E] transition-all" title="Tema Değiştir">
-                            {isDarkMode ? <SunIcon /> : <MoonIcon />}
-                        </button>
-                        <button onClick={handleLogout} className="p-2.5 rounded-full text-gray-500 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-all" title="Çıkış Yap">
-                            <LogOutIcon />
-                        </button>
+                        <button onClick={handleExportData} className="p-2.5 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-[#1E1E1E] transition-all" title="Yedekle"><DownloadCloudIcon /></button>
+                        <button onClick={() => fileInputRef.current?.click()} className="p-2.5 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-[#1E1E1E] transition-all" title="Yükle"><UploadCloudIcon /></button>
+                        <button onClick={() => setIsCalendarOpen(true)} className="p-2.5 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-[#1E1E1E] transition-all"><CalendarIcon /></button>
+                        <button onClick={() => setIsDashboardOpen(!isDashboardOpen)} className={`p-2.5 rounded-full transition-all ${isDashboardOpen ? 'bg-gray-200 dark:bg-[#333]' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-[#1E1E1E]'}`}><ChartIcon /></button>
+                        <button onClick={toggleDarkMode} className="p-2.5 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1E1E1E] transition-all"><SunIcon /></button>
                     </div>
-
-                    {/* Primary CTA */}
-                    <button onClick={() => { setEditingVideo(null); setIsModalOpen(true); }} className="flex items-center gap-2 px-5 py-2.5 bg-[#D81B2D] hover:bg-[#b91625] text-white rounded-full font-bold shadow-lg shadow-red-500/20 hover:shadow-red-500/40 active:scale-95 transition-all text-sm">
+                    <button onClick={() => { setEditingVideo(null); setIsModalOpen(true); }} className="flex items-center gap-2 px-5 py-2.5 bg-[#D81B2D] hover:bg-[#b91625] text-white rounded-full font-bold shadow-lg shadow-red-500/20 active:scale-95 transition-all text-sm">
                         <PlusIcon /> <span>Yeni Proje</span>
                     </button>
-                    
-                    <div className="h-6 w-px bg-gray-200 dark:bg-gray-700 mx-2"></div>
-                    <div className="h-6"><BimLogo className="h-full opacity-80" /></div>
-                </div>
-
-                {/* Mobile Header Elements */}
-                <div className="flex md:hidden w-full items-center gap-2 ml-4">
-                   <div className="flex-1 relative">
-                     <input 
-                       type="text" 
-                       value={searchQuery}
-                       onChange={e => setSearchQuery(e.target.value)}
-                       placeholder="Ara..."
-                       className="w-full pl-9 pr-3 py-2 bg-gray-100 dark:bg-[#1E1E1E] border-none rounded-full text-sm focus:ring-2 focus:ring-[#D81B2D] outline-none dark:text-white"
-                     />
-                     <div className="absolute left-3 top-2.5 text-gray-400"><SearchIcon /></div>
-                   </div>
-                   <button onClick={() => setIsDashboardOpen(!isDashboardOpen)} className={`p-2 rounded-full ${isDashboardOpen ? 'bg-gray-200 dark:bg-[#333]' : ''} text-gray-600 dark:text-gray-300`}>
-                      <ChartIcon />
-                   </button>
-                   <button onClick={handleLogout} className="p-2 text-gray-600 dark:text-gray-300 hover:text-red-500">
-                      <LogOutIcon />
-                   </button>
                 </div>
               </div>
+
+              {/* Mobile Expanded Search */}
+              {isMobileSearchOpen && (
+                  <div className="md:hidden pb-4 px-1 animate-in slide-in-from-top-2">
+                      <div className="relative">
+                          <input 
+                            type="text" 
+                            value={searchQuery}
+                            onChange={e => setSearchQuery(e.target.value)}
+                            placeholder="Proje, durum veya not ara..."
+                            className="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-[#1E1E1E] border-none rounded-xl text-base focus:ring-2 focus:ring-[#D81B2D] outline-none dark:text-white shadow-inner"
+                            autoFocus
+                          />
+                          <div className="absolute left-3 top-3.5 text-gray-400"><SearchIcon /></div>
+                      </div>
+                  </div>
+              )}
             </div>
           </header>
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-2">
             
-            {/* -- DASHBOARD SECTION (Collapsible) -- */}
+            {/* -- DASHBOARD SECTION -- */}
             <DashboardCharts isOpen={isDashboardOpen} videos={filteredVideos} />
 
             {/* -- Filters Bar -- */}
-            <div className="bg-white/60 dark:bg-[#1E1E1E]/60 backdrop-blur-md p-2 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 mb-3 flex flex-col sm:flex-row justify-between items-center no-print transition-all gap-3">
-              {/* Quick Search MOVED TO LEFT */}
+            <div className={`bg-white/60 dark:bg-[#1E1E1E]/60 backdrop-blur-md p-2 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 mb-3 flex flex-col sm:flex-row justify-between items-center no-print transition-all gap-3 ${!showMobileFilters ? 'hidden md:flex' : 'flex'}`}>
               <div className="flex items-center gap-2 w-full sm:w-auto px-2">
                  <div className="relative w-full sm:w-auto flex-1 hidden md:block">
-                     <input 
-                       type="text" 
-                       value={searchQuery}
-                       onChange={e => setSearchQuery(e.target.value)}
-                       placeholder="Proje adı ile filtrele..."
-                       className="pl-9 pr-3 py-2 bg-transparent border-none text-sm focus:ring-0 outline-none w-full sm:w-64 transition-all dark:text-white placeholder-gray-500"
-                     />
+                     <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Proje ara..." className="pl-9 pr-3 py-2 bg-transparent border-none text-sm focus:ring-0 outline-none w-full sm:w-64 transition-all dark:text-white placeholder-gray-500" />
                      <div className="absolute left-0 top-2 text-gray-400"><SearchIcon /></div>
                  </div>
               </div>
-              
               <div className="flex items-center gap-2 w-full sm:w-auto flex-wrap justify-end">
-                
-                {/* Product Status Filter Segmented Control */}
-                <div className="flex bg-gray-100/80 dark:bg-[#2C2C2C] p-1 rounded-xl">
-                   <button 
-                     onClick={() => setProductFilterState('ALL')}
-                     className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${productFilterState === 'ALL' ? 'bg-white dark:bg-[#3A3A3A] text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
-                   >
-                     Tümü
-                   </button>
-                   <button 
-                     onClick={() => setProductFilterState('ARRIVED')}
-                     className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1 ${productFilterState === 'ARRIVED' ? 'bg-white dark:bg-[#3A3A3A] text-green-600 shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
-                   >
-                     <BoxIcon /> Geldi
-                   </button>
-                   <button 
-                     onClick={() => setProductFilterState('NOT_ARRIVED')}
-                     className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1 ${productFilterState === 'NOT_ARRIVED' ? 'bg-white dark:bg-[#3A3A3A] text-red-600 shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
-                   >
-                     <AlertIcon /> Gelmedi
-                   </button>
+                <div className="flex bg-gray-100/80 dark:bg-[#2C2C2C] p-1 rounded-xl w-full sm:w-auto justify-center">
+                   <button onClick={() => setProductFilterState('ALL')} className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${productFilterState === 'ALL' ? 'bg-white dark:bg-[#3A3A3A] text-gray-900 dark:text-white shadow-sm' : 'text-gray-500'}`}>Tümü</button>
+                   <button onClick={() => setProductFilterState('ARRIVED')} className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1 ${productFilterState === 'ARRIVED' ? 'bg-white dark:bg-[#3A3A3A] text-green-600 shadow-sm' : 'text-gray-500'}`}><BoxIcon /> Geldi</button>
+                   <button onClick={() => setProductFilterState('NOT_ARRIVED')} className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1 ${productFilterState === 'NOT_ARRIVED' ? 'bg-white dark:bg-[#3A3A3A] text-red-600 shadow-sm' : 'text-gray-500'}`}><AlertIcon /> Gelmedi</button>
                 </div>
-
-                {/* MONTH NAVIGATION */}
-                <div className="flex items-center bg-gray-100/80 dark:bg-[#2C2C2C] rounded-xl p-1">
-                  <button onClick={() => handleMonthChange(-1)} className="p-2 hover:bg-white dark:hover:bg-[#3A3A3A] hover:shadow-sm rounded-lg text-gray-500 dark:text-gray-400 transition-all" title="Önceki Ay">
-                    <ChevronLeftIcon />
-                  </button>
-                  
-                  <div className="flex items-center px-4 min-w-[120px] justify-center">
-                    <span className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wide">
-                        {filter.month === -1 ? `${filter.year} TÜM YIL` : `${MONTHS_TR[filter.month]} ${filter.year}`}
-                    </span>
-                  </div>
-
-                  <button onClick={() => handleMonthChange(1)} className="p-2 hover:bg-white dark:hover:bg-[#3A3A3A] hover:shadow-sm rounded-lg text-gray-500 dark:text-gray-400 transition-all" title="Sonraki Ay">
-                    <ChevronRightIcon />
-                  </button>
+                <div className="flex items-center bg-gray-100/80 dark:bg-[#2C2C2C] rounded-xl p-1 w-full sm:w-auto justify-between sm:justify-start">
+                  <button onClick={() => handleMonthChange(-1)} className="p-2 hover:bg-white dark:hover:bg-[#3A3A3A] hover:shadow-sm rounded-lg text-gray-500 dark:text-gray-400"><ChevronLeftIcon /></button>
+                  <div className="flex items-center px-4 justify-center"><span className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wide">{filter.month === -1 ? `${filter.year} TÜM YIL` : `${MONTHS_TR[filter.month]} ${filter.year}`}</span></div>
+                  <button onClick={() => handleMonthChange(1)} className="p-2 hover:bg-white dark:hover:bg-[#3A3A3A] hover:shadow-sm rounded-lg text-gray-500 dark:text-gray-400"><ChevronRightIcon /></button>
                 </div>
-
-                {/* COMPLETE MONTH */}
-                <button 
-                   onClick={handleCompleteMonth}
-                   className="hidden sm:flex items-center gap-2 bg-green-50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-900/50 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800 text-xs font-bold px-4 py-2 rounded-xl transition-colors whitespace-nowrap"
-                   title="Bu ayı tamamlayıp bir sonraki aya geçer"
-                >
-                   <CheckIcon /> <span>Ayı Tamamla</span>
-                </button>
               </div>
             </div>
 
-            {/* -- Stats Grid (Updated) -- */}
+            {/* -- STATS GRID (Mobile Optimized) -- */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 no-print">
-              {/* Main Red Card - UPDATED WITH REVENUE */}
               <div className="bg-gradient-to-br from-[#D81B2D] to-[#b91625] p-4 rounded-xl shadow-lg text-white col-span-2 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 cursor-default flex flex-col justify-between relative overflow-hidden min-h-[120px] group">
-                 <div className="absolute -right-2 -top-2 opacity-20 transform rotate-12 scale-125 pointer-events-none text-white transition-transform group-hover:scale-150 duration-500">
-                     <DatabaseIcon />
-                 </div>
+                 <div className="absolute -right-2 -top-2 opacity-20 transform rotate-12 scale-125 pointer-events-none text-white"><DatabaseIcon /></div>
                  <div className="relative z-10 flex justify-between items-start">
-                   <div>
-                      <p className="text-[10px] font-bold text-white/80 uppercase tracking-wider">Aktif Proje</p>
-                      <p className="text-4xl font-brand font-extrabold drop-shadow-md">{stats.activeTotal}</p>
-                   </div>
-                   <div className="text-right">
-                      <p className="text-[10px] font-bold text-white/80 uppercase tracking-wider">Toplam Ciro</p>
-                      <p className="text-xl font-mono font-bold opacity-90 drop-shadow-sm">{new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(totalInvoiceAmount)}</p>
-                   </div>
+                   <div><p className="text-[10px] font-bold text-white/80 uppercase tracking-wider">Aktif Proje</p><p className="text-4xl font-brand font-extrabold drop-shadow-md">{stats.activeTotal}</p></div>
+                   <div className="text-right"><p className="text-[10px] font-bold text-white/80 uppercase tracking-wider">Toplam Ciro</p><p className="text-xl font-mono font-bold opacity-90 drop-shadow-sm">{new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(totalInvoiceAmount)}</p></div>
                  </div>
                  <div className="flex justify-between items-end text-xs font-medium text-white/90 border-t border-white/20 pt-2 mt-auto relative z-10">
-                    <div className="flex gap-3">
-                       <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_5px_rgba(74,222,128,0.8)]"></span> {stats.arrived} Geldi</span>
-                       <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-900 shadow-[0_0_5px_rgba(127,29,29,0.8)]"></span> {stats.notArrived} Gelmedi</span>
-                    </div>
+                    <div className="flex gap-3"><span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_5px_rgba(74,222,128,0.8)]"></span> {stats.arrived} Geldi</span><span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-900 shadow-[0_0_5px_rgba(127,29,29,0.8)]"></span> {stats.notArrived} Gelmedi</span></div>
                  </div>
               </div>
-
               {[
                 { type: VideoType.VIDEO, label: 'Video', val: stats.videoCount, color: 'blue', icon: <FilmIcon /> },
                 { type: VideoType.ANIMATION, label: 'Animasyon', val: stats.animCount, color: 'purple', icon: <MagicIcon /> },
-                { type: VideoType.RED_ACTUAL, label: 'Kırmızı Aktüel', val: stats.redCount, color: 'red', icon: <ApertureIcon /> },
+                { type: VideoType.RED_ACTUAL, label: 'Kırmızı', val: stats.redCount, color: 'red', icon: <ApertureIcon /> },
                 { type: VideoType.LOWER_THIRD, label: 'Altbant', val: stats.lowerCount, color: 'orange', icon: <LayoutIcon /> }
               ].map((s) => (
-                <div 
-                  key={s.label} 
-                  onClick={() => toggleTypeFilter(s.type)}
-                  className={`relative p-4 rounded-xl shadow-sm border transition-all duration-300 cursor-pointer col-span-1 overflow-hidden group
-                    ${activeTypeFilter === s.type 
-                      ? `ring-2 ring-${s.color}-500 bg-${s.color}-50 dark:bg-${s.color}-900/20 border-${s.color}-200 dark:border-${s.color}-800 scale-[1.02] shadow-md` 
-                      : `bg-white dark:bg-[#1E1E1E] border-gray-100 dark:border-gray-800 hover:-translate-y-1 hover:shadow-md`
-                    }
-                  `}
-                >
-                   {/* Gradient overlay for hover */}
-                  <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-transparent to-${s.color}-50 dark:to-${s.color}-900/10 pointer-events-none`} />
-
-                  <div className={`absolute -right-3 -top-3 opacity-10 group-hover:opacity-20 transform rotate-12 scale-125 transition-transform duration-500 group-hover:scale-150 pointer-events-none text-${s.color}-500 dark:text-${s.color}-400`}>
-                      {s.icon}
-                  </div>
-                  <div className="relative z-10 h-full flex flex-col justify-between">
-                    <div>
-                      <p className={`text-[10px] font-bold uppercase transition-colors ${activeTypeFilter === s.type ? `text-${s.color}-700 dark:text-${s.color}-300` : `text-${s.color}-500 dark:text-${s.color}-400`}`}>{s.label}</p>
-                      <p className={`text-3xl font-brand font-extrabold mt-1 transition-colors ${activeTypeFilter === s.type ? `text-${s.color}-800 dark:text-${s.color}-200` : `text-${s.color}-600 dark:text-${s.color}-300`}`}>{s.val}</p>
-                    </div>
-                  </div>
+                <div key={s.label} onClick={() => toggleTypeFilter(s.type)} className={`relative p-3 rounded-xl shadow-sm border transition-all duration-300 cursor-pointer col-span-1 overflow-hidden active:scale-95 ${activeTypeFilter === s.type ? `ring-2 ring-${s.color}-500 bg-${s.color}-50 dark:bg-${s.color}-900/20 border-${s.color}-200` : `bg-white dark:bg-[#1E1E1E] border-gray-100 dark:border-gray-800`}`}>
+                  <div className={`absolute -right-3 -top-3 opacity-10 pointer-events-none text-${s.color}-500`}>{s.icon}</div>
+                  <div><p className={`text-[9px] font-bold uppercase ${activeTypeFilter === s.type ? `text-${s.color}-700` : `text-gray-400`}`}>{s.label}</p><p className={`text-2xl font-brand font-extrabold mt-1 ${activeTypeFilter === s.type ? `text-${s.color}-800` : `text-gray-700 dark:text-gray-300`}`}>{s.val}</p></div>
                 </div>
               ))}
             </div>
@@ -675,75 +509,63 @@ const App: React.FC = () => {
       </div>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
-        {/* -- MOBILE CARD LIST (Visible only on mobile) -- */}
+        {/* -- MOBILE CARD LIST (Redesigned) -- */}
         <div className="md:hidden space-y-6 pb-24">
           {groupedVideos.map((group) => (
             <div key={group.weekLabel} className="space-y-3">
-              {/* Sticky Week Header */}
-              <div 
-                onClick={() => toggleWeek(group.weekLabel)}
-                className="flex items-center justify-between bg-white dark:bg-[#1E1E1E] p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 sticky top-20 z-30 active:scale-[0.98] transition-transform"
-              >
-                <div className="flex items-center gap-3">
-                   <div className={`p-1.5 rounded-full ${expandedWeeks[group.weekLabel] ? 'bg-[#D81B2D] text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-500'}`}>
-                      {expandedWeeks[group.weekLabel] ? <ChevronUpIcon /> : <ChevronDownIcon />}
-                   </div>
-                   <span className="text-xs font-extrabold text-gray-900 dark:text-white tracking-wide">{group.weekLabel}</span>
-                </div>
-                <span className="text-[10px] font-bold bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-gray-500">{group.items.length}</span>
+              <div onClick={() => toggleWeek(group.weekLabel)} className="flex items-center justify-between bg-white dark:bg-[#1E1E1E] p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 sticky top-20 z-30 active:scale-[0.98] transition-transform">
+                <div className="flex items-center gap-3"><div className={`p-1.5 rounded-full ${expandedWeeks[group.weekLabel] ? 'bg-[#D81B2D] text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-500'}`}>{expandedWeeks[group.weekLabel] ? <ChevronUpIcon /> : <ChevronDownIcon />}</div><span className="text-xs font-extrabold text-gray-900 dark:text-white tracking-wide">{group.weekLabel}</span></div><span className="text-[10px] font-bold bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-gray-500">{group.items.length}</span>
               </div>
 
-              {/* Cards */}
               {expandedWeeks[group.weekLabel] && (
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {group.items.map((video) => {
                      const isDimmed = video.status === VideoStatus.CANCELLED || video.status === VideoStatus.REPEAT;
+                     const dateObj = new Date(video.date);
                      return (
-                       <div key={video.id} className={`bg-white dark:bg-[#1E1E1E] rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 relative overflow-hidden transition-all ${isDimmed ? 'opacity-60' : ''}`}>
-                          {video.isCompleted && !isDimmed && (
-                             <div className="absolute inset-0 bg-white/50 dark:bg-black/50 z-10 pointer-events-none" />
-                          )}
+                       <div key={video.id} className={`bg-white dark:bg-[#1E1E1E] rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden transition-all active:scale-[0.99] ${isDimmed ? 'opacity-60' : ''}`}>
                           
-                          {/* Top Row: Date & Status */}
-                          <div className="flex justify-between items-start mb-3 relative z-20">
-                             <div className="flex flex-col">
-                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">
-                                   {new Date(video.date).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', weekday: 'short' })}
-                                </span>
-                                <h4 className={`text-sm font-bold leading-tight ${isDimmed ? 'line-through text-gray-400' : 'text-gray-900 dark:text-white'}`}>
-                                   {video.title}
-                                </h4>
+                          {/* Card Header Strip */}
+                          <div className="bg-gray-50 dark:bg-[#252525] px-4 py-3 flex justify-between items-center border-b border-gray-100 dark:border-gray-800">
+                             <div className="flex items-center gap-2">
+                                <span className="text-xs font-black text-gray-700 dark:text-gray-300">{dateObj.getDate()} {MONTHS_TR[dateObj.getMonth()].slice(0,3)}</span>
+                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{dateObj.toLocaleDateString('tr-TR', { weekday: 'short' })}</span>
                              </div>
                              <StatusBadge status={video.status} />
                           </div>
 
-                          {/* Middle Row: Type & Quantity */}
-                          <div className="flex items-center gap-2 mb-4 relative z-20">
-                             <span className={`text-[10px] font-bold px-2 py-1 rounded border uppercase ${
-                                video.type === VideoType.VIDEO ? 'text-blue-600 border-blue-200 bg-blue-50' : 
-                                video.type === VideoType.ANIMATION ? 'text-purple-600 border-purple-200 bg-purple-50' :
-                                video.type === VideoType.LIFESTYLE ? 'text-teal-600 border-teal-200 bg-teal-50' :
-                                video.type === VideoType.RED_ACTUAL ? 'text-red-600 border-red-200 bg-red-50' : 'text-orange-600 border-orange-200 bg-orange-50'
-                             }`}>
-                                {video.type}
-                             </span>
-                             <span className="text-xs font-mono font-bold text-gray-400">x{video.quantity}</span>
-                             {video.notes && <span className="text-yellow-500"><StickyNoteIcon /></span>}
+                          {/* Main Content */}
+                          <div className="p-5">
+                             <h4 className={`text-base font-extrabold leading-tight mb-3 ${isDimmed ? 'line-through text-gray-400' : 'text-gray-900 dark:text-white'}`}>{video.title}</h4>
+                             <div className="flex flex-wrap gap-2 mb-1">
+                                <span className={`text-[10px] font-bold px-2.5 py-1 rounded-lg border uppercase tracking-wide ${
+                                    video.type === VideoType.VIDEO ? 'text-blue-700 border-blue-100 bg-blue-50' : 
+                                    video.type === VideoType.ANIMATION ? 'text-purple-700 border-purple-100 bg-purple-50' :
+                                    video.type === VideoType.LIFESTYLE ? 'text-teal-700 border-teal-100 bg-teal-50' :
+                                    video.type === VideoType.RED_ACTUAL ? 'text-red-700 border-red-100 bg-red-50' : 'text-orange-700 border-orange-100 bg-orange-50'
+                                }`}>{video.type}</span>
+                                <span className="text-[10px] font-mono font-bold text-gray-500 bg-gray-100 dark:bg-[#333] px-2 py-1 rounded-lg">x{video.quantity}</span>
+                                {video.notes && <span className="text-yellow-500 flex items-center"><StickyNoteIcon /></span>}
+                             </div>
                           </div>
 
-                          {/* Actions Grid */}
-                          <div className="grid grid-cols-4 gap-2 pt-3 border-t border-gray-100 dark:border-gray-800 relative z-20">
-                             <button onClick={() => toggleProductStatus(video.id)} className={`col-span-1 flex flex-col items-center justify-center p-2 rounded-xl border transition-all ${video.productStatus === ProductStatus.ARRIVED ? 'bg-green-50 border-green-200 text-green-600' : 'bg-red-50 border-red-100 text-red-400'}`}>
+                          {/* Action Bar (Bottom Strip) */}
+                          <div className="grid grid-cols-4 divide-x divide-gray-100 dark:divide-gray-700 border-t border-gray-100 dark:border-gray-800">
+                             <button onClick={() => toggleProductStatus(video.id)} className={`py-4 flex flex-col items-center justify-center gap-1 transition-colors ${video.productStatus === ProductStatus.ARRIVED ? 'bg-green-50/50 text-green-600' : 'text-gray-400 hover:bg-gray-50'}`}>
                                 <BoxIcon />
+                                <span className="text-[9px] font-bold uppercase">{video.productStatus === ProductStatus.ARRIVED ? 'Geldi' : 'Ürün'}</span>
                              </button>
-                             <button onClick={() => toggleInvoiced(video.id)} className={`col-span-1 flex flex-col items-center justify-center p-2 rounded-xl border transition-all ${video.isInvoiced ? 'bg-emerald-50 border-emerald-200 text-emerald-600' : 'bg-gray-50 border-gray-200 text-gray-300'}`}>
+                             <button onClick={() => toggleInvoiced(video.id)} className={`py-4 flex flex-col items-center justify-center gap-1 transition-colors ${video.isInvoiced ? 'bg-emerald-50/50 text-emerald-600' : 'text-gray-400 hover:bg-gray-50'}`}>
                                 <BillIcon />
+                                <span className="text-[9px] font-bold uppercase">Fatura</span>
                              </button>
-                             <button onClick={() => toggleComplete(video.id)} className={`col-span-1 flex flex-col items-center justify-center p-2 rounded-xl border transition-all ${video.isCompleted ? 'bg-green-500 border-green-600 text-white' : 'bg-gray-50 border-gray-200 text-gray-300'}`}>
+                             <button onClick={() => toggleComplete(video.id)} className={`py-4 flex flex-col items-center justify-center gap-1 transition-colors ${video.isCompleted ? 'bg-green-500 text-white' : 'text-gray-400 hover:bg-gray-50'}`}>
                                 <CheckIcon />
+                                <span className="text-[9px] font-bold uppercase">Tamam</span>
                              </button>
-                             <button onClick={() => handleEdit(video)} className="col-span-1 flex flex-col items-center justify-center p-2 rounded-xl border border-gray-200 dark:border-gray-700 text-blue-500 bg-white dark:bg-[#252525]">
+                             <button onClick={() => handleEdit(video)} className="py-4 flex flex-col items-center justify-center gap-1 text-blue-500 hover:bg-blue-50 transition-colors">
                                 <EditIcon />
+                                <span className="text-[9px] font-bold uppercase">Düzenle</span>
                              </button>
                           </div>
                        </div>
@@ -756,7 +578,6 @@ const App: React.FC = () => {
           {filteredVideos.length === 0 && (
              <div className="flex flex-col items-center justify-center py-20 text-center opacity-50">
                 <p className="font-bold text-gray-900 dark:text-white">Proje Yok</p>
-                <p className="text-sm text-gray-500">Bu dönem için kayıtlı proje bulunamadı.</p>
              </div>
           )}
         </div>
@@ -780,126 +601,35 @@ const App: React.FC = () => {
               <tbody className="divide-y divide-gray-100 dark:divide-gray-800 text-sm">
                 {groupedVideos.map((group, idx) => (
                   <React.Fragment key={group.weekLabel}>
-                    {/* Collapsible Header Row */}
-                    <tr 
-                       onClick={() => toggleWeek(group.weekLabel)}
-                       className="cursor-pointer bg-gray-50 dark:bg-[#2A2A2A] hover:bg-gray-100 dark:hover:bg-[#333] transition-colors border-t-4 border-white dark:border-[#121212] shadow-sm group/header"
-                    >
+                    <tr onClick={() => toggleWeek(group.weekLabel)} className="cursor-pointer bg-gray-50 dark:bg-[#2A2A2A] hover:bg-gray-100 dark:hover:bg-[#333] transition-colors border-t-4 border-white dark:border-[#121212] shadow-sm group/header">
                        <td colSpan={8} className="px-0 py-0">
                           <div className="flex justify-between items-center pl-4 py-2 border-l-4 border-[#D81B2D] transition-all group-hover/header:border-l-8">
-                             <div className="flex items-center gap-3">
-                                <div className="p-1 bg-white dark:bg-[#1E1E1E] rounded-full border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 group-hover/header:text-[#D81B2D] transition-colors">
-                                   {expandedWeeks[group.weekLabel] ? <ChevronUpIcon /> : <ChevronDownIcon />}
-                                </div>
-                                <span className="text-xs font-bold text-gray-800 dark:text-gray-200 tracking-wide">{group.weekLabel}</span>
-                             </div>
-                             
-                             <div className="flex items-center gap-3 pr-4">
-                                <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider bg-white/50 dark:bg-black/20 px-2 py-1 rounded hidden sm:inline-block border border-transparent group-hover/header:border-gray-200 dark:group-hover/header:border-gray-700 transition-all">
-                                    {group.summary}
-                                </span>
-                                <div className="flex gap-1 opacity-0 group-hover/header:opacity-100 transition-opacity">
-                                    <button onClick={(e) => handleOpenWeekInvoice(e, group.weekLabel, group.items)} className="p-2 bg-white dark:bg-[#1E1E1E] hover:bg-gray-100 dark:hover:bg-[#2C2C2C] text-gray-600 dark:text-gray-400 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors shadow-sm" title="Fatura Listesi (PDF)">
-                                        <PrintIcon />
-                                    </button>
-                                    <button onClick={(e) => handleOpenWeekLogistics(e, group.weekLabel, group.items)} className="p-2 bg-white dark:bg-[#1E1E1E] hover:bg-gray-100 dark:hover:bg-[#2C2C2C] text-gray-600 dark:text-gray-400 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors shadow-sm" title="Gelmeyenler Listesi (Resim)">
-                                        <ImageIcon />
-                                    </button>
-                                </div>
-                             </div>
+                             <div className="flex items-center gap-3"><div className="p-1 bg-white dark:bg-[#1E1E1E] rounded-full border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 group-hover/header:text-[#D81B2D] transition-colors">{expandedWeeks[group.weekLabel] ? <ChevronUpIcon /> : <ChevronDownIcon />}</div><span className="text-xs font-bold text-gray-800 dark:text-gray-200 tracking-wide">{group.weekLabel}</span></div>
+                             <div className="flex items-center gap-3 pr-4"><span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider bg-white/50 dark:bg-black/20 px-2 py-1 rounded hidden sm:inline-block border border-transparent group-hover/header:border-gray-200 dark:group-hover/header:border-gray-700 transition-all">{group.summary}</span><div className="flex gap-1 opacity-0 group-hover/header:opacity-100 transition-opacity"><button onClick={(e) => handleOpenWeekInvoice(e, group.weekLabel, group.items)} className="p-2 bg-white dark:bg-[#1E1E1E] hover:bg-gray-100 dark:hover:bg-[#2C2C2C] text-gray-600 dark:text-gray-400 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors shadow-sm"><PrintIcon /></button><button onClick={(e) => handleOpenWeekLogistics(e, group.weekLabel, group.items)} className="p-2 bg-white dark:bg-[#1E1E1E] hover:bg-gray-100 dark:hover:bg-[#2C2C2C] text-gray-600 dark:text-gray-400 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors shadow-sm"><ImageIcon /></button></div></div>
                           </div>
                        </td>
                     </tr>
-                    
-                    {/* Video Rows */}
                     {expandedWeeks[group.weekLabel] && group.items.map((video, vIdx) => {
                         const currentDate = new Date(video.date);
                         const currentDayStr = currentDate.toLocaleDateString('tr-TR', { weekday: 'long' });
                         const prevVideo = vIdx > 0 ? group.items[vIdx - 1] : null;
                         const prevDayStr = prevVideo ? new Date(prevVideo.date).toLocaleDateString('tr-TR', { weekday: 'long' }) : '';
                         const showSeparator = vIdx === 0 || currentDayStr !== prevDayStr;
-                        
                         const isCancelled = video.status === VideoStatus.CANCELLED;
                         const isRepeat = video.status === VideoStatus.REPEAT;
                         const isDimmed = isCancelled || isRepeat;
-
                         return (
                           <React.Fragment key={video.id}>
-                              {showSeparator && (
-                                  <tr className="bg-gradient-to-r from-transparent via-gray-50 to-transparent dark:via-[#222]">
-                                      <td colSpan={8} className="px-4 py-2">
-                                          <div className="flex items-center justify-center">
-                                              <div className="flex items-center gap-2 px-4 py-1 bg-blue-50 dark:bg-blue-900/20 rounded-full border border-blue-100 dark:border-blue-800/30 shadow-sm">
-                                                 <span className="w-1.5 h-1.5 rounded-full bg-blue-500 dark:bg-blue-400 animate-pulse"></span>
-                                                 <span className="text-[10px] font-bold uppercase text-blue-600 dark:text-blue-300 tracking-widest">{currentDayStr}</span>
-                                              </div>
-                                          </div>
-                                      </td>
-                                  </tr>
-                              )}
-                              <tr className={`transition-all duration-300 group hover:shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] hover:z-10 relative border-b border-transparent
-                                ${isCancelled ? 'opacity-60 grayscale bg-gray-50/50 dark:bg-gray-900/50' : ''}
-                                ${isRepeat ? 'bg-indigo-50/30 dark:bg-indigo-900/10' : ''}
-                                ${video.isCompleted && !isDimmed ? 'bg-gray-50/50 dark:bg-[#1a1a1a] opacity-75' : (!isDimmed ? 'bg-white dark:bg-[#1E1E1E]' : '')} 
-                                ${video.productStatus === ProductStatus.NOT_ARRIVED && !video.isCompleted && !isDimmed ? 'bg-red-50/30 dark:bg-red-900/5' : ''}
-                                ${video.isInvoiced && !isDimmed ? 'bg-emerald-50/50 dark:bg-emerald-900/10 border-l-4 border-emerald-500' : 'hover:bg-gray-50 dark:hover:bg-[#252525] border-l-4 border-transparent hover:border-gray-200 dark:hover:border-gray-700'}
-                              `}>
-                                <td className="px-4 py-2.5 text-center">
-                                <button onClick={() => toggleComplete(video.id)} disabled={isDimmed} className={`w-6 h-6 rounded-md border transition-all flex items-center justify-center transform active:scale-90 shadow-sm ${isDimmed ? 'opacity-30 cursor-not-allowed border-gray-200' : (video.isCompleted ? 'bg-green-500 border-green-500 text-white' : 'border-gray-300 dark:border-gray-600 hover:border-green-500 text-transparent hover:text-green-500')}`}>
-                                    <CheckIcon />
-                                </button>
-                                </td>
-                                <td className={`px-4 py-2.5 font-semibold text-center ${isCancelled ? 'line-through text-gray-400' : 'text-gray-700 dark:text-gray-300'}`}>
-                                {new Date(video.date).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })}
-                                </td>
-                                <td className="px-4 py-2.5 text-center">
-                                <button onClick={() => toggleProductStatus(video.id)} disabled={isDimmed} className={`inline-flex items-center gap-1.5 px-2 py-1 rounded text-xs font-bold transition-all w-24 justify-center shadow-sm ${isDimmed ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400' : (video.productStatus === ProductStatus.ARRIVED ? 'bg-green-100 text-green-700 border border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800 hover:scale-105' : 'bg-red-100 text-red-700 border border-red-200 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/50 hover:scale-105')}`}>
-                                    <BoxIcon /> <span>{video.productStatus === ProductStatus.ARRIVED ? 'Geldi' : 'Gelmedi'}</span>
-                                </button>
-                                </td>
-                                <td className={`px-4 py-2.5 font-medium text-left ${isCancelled ? 'line-through decoration-2 decoration-gray-400 text-gray-400' : (video.isCompleted ? 'text-gray-400 dark:text-gray-500' : 'text-gray-900 dark:text-gray-100')}`}>
-                                    <div className="flex items-center gap-2">
-                                        <span className="truncate">{video.title}</span>
-                                        {video.notes && (
-                                            <div className="group/note relative">
-                                                <div className="text-yellow-500 dark:text-yellow-600 hover:scale-110 transition-transform cursor-help">
-                                                    <StickyNoteIcon />
-                                                </div>
-                                                <div className="absolute left-0 bottom-full mb-2 hidden group-hover/note:block w-64 p-3 bg-yellow-50 dark:bg-yellow-900/90 text-yellow-900 dark:text-yellow-100 text-xs rounded-lg shadow-xl border border-yellow-200 dark:border-yellow-800 z-50 whitespace-normal backdrop-blur-sm animate-in zoom-in-95 duration-200">
-                                                    {video.notes}
-                                                    <div className="absolute bottom-[-6px] left-3 w-3 h-3 bg-yellow-50 dark:bg-yellow-900/90 border-r border-b border-yellow-200 dark:border-yellow-800 transform rotate-45"></div>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </td>
-                                <td className="px-4 py-2.5 text-center">
-                                <div className={`inline-flex items-center gap-1.5 px-2 py-1 bg-white dark:bg-[#2C2C2C] border border-gray-200 dark:border-gray-700 rounded text-xs shadow-sm w-28 justify-center ${isDimmed ? 'opacity-50 grayscale' : ''}`}>
-                                    <span className={`font-bold uppercase text-[10px] ${
-                                    video.type === VideoType.VIDEO ? 'text-blue-600 dark:text-blue-400' : 
-                                    video.type === VideoType.ANIMATION ? 'text-purple-600 dark:text-purple-400' : 
-                                    video.type === VideoType.LIFESTYLE ? 'text-teal-600 dark:text-teal-400' : 
-                                    video.type === VideoType.RED_ACTUAL ? 'text-red-600 dark:text-red-400' : 'text-orange-600 dark:text-orange-400'
-                                    }`}>{video.type}</span>
-                                </div>
-                                </td>
-                                <td className="px-4 py-2.5 text-center relative">
-                                    <div className="relative inline-block w-full group/status hover:scale-105 transition-transform">
-                                        <div className="flex items-center justify-center gap-1 cursor-pointer"><StatusBadge status={video.status} /><ChevronDownIcon /></div>
-                                        <select value={video.status} onChange={(e) => handleStatusChange(video.id, e.target.value as VideoStatus)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer">{Object.values(VideoStatus).map(s => <option key={s} value={s}>{s}</option>)}</select>
-                                    </div>
-                                </td>
-                                <td className="px-4 py-2.5 text-center">
-                                <button onClick={() => toggleInvoiced(video.id)} disabled={isDimmed} className={`p-1.5 rounded-lg transition-all transform ${isDimmed ? 'opacity-20 cursor-not-allowed' : 'active:scale-90'} ${video.isInvoiced ? 'bg-emerald-600 text-white shadow-md ring-2 ring-emerald-200 dark:ring-emerald-900' : 'text-gray-300 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#333]'}`}>
-                                    {video.isInvoiced ? <CheckCircleIcon /> : <BillIcon />}
-                                </button>
-                                </td>
-                                <td className="px-4 py-2.5 text-center no-print">
-                                <div className="flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button onClick={() => handleEdit(video)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded transition-colors"><EditIcon /></button>
-                                    <button onClick={() => handleDelete(video.id)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors"><TrashIcon /></button>
-                                </div>
-                                </td>
+                              {showSeparator && (<tr className="bg-gradient-to-r from-transparent via-gray-50 to-transparent dark:via-[#222]"><td colSpan={8} className="px-4 py-2"><div className="flex items-center justify-center"><div className="flex items-center gap-2 px-4 py-1 bg-blue-50 dark:bg-blue-900/20 rounded-full border border-blue-100 dark:border-blue-800/30 shadow-sm"><span className="w-1.5 h-1.5 rounded-full bg-blue-500 dark:bg-blue-400 animate-pulse"></span><span className="text-[10px] font-bold uppercase text-blue-600 dark:text-blue-300 tracking-widest">{currentDayStr}</span></div></div></td></tr>)}
+                              <tr className={`transition-all duration-300 group hover:shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] hover:z-10 relative border-b border-transparent ${isCancelled ? 'opacity-60 grayscale bg-gray-50/50 dark:bg-gray-900/50' : ''} ${isRepeat ? 'bg-indigo-50/30 dark:bg-indigo-900/10' : ''} ${video.isCompleted && !isDimmed ? 'bg-gray-50/50 dark:bg-[#1a1a1a] opacity-75' : (!isDimmed ? 'bg-white dark:bg-[#1E1E1E]' : '')} ${video.productStatus === ProductStatus.NOT_ARRIVED && !video.isCompleted && !isDimmed ? 'bg-red-50/30 dark:bg-red-900/5' : ''} ${video.isInvoiced && !isDimmed ? 'bg-emerald-50/50 dark:bg-emerald-900/10 border-l-4 border-emerald-500' : 'hover:bg-gray-50 dark:hover:bg-[#252525] border-l-4 border-transparent hover:border-gray-200 dark:hover:border-gray-700'}`}>
+                                <td className="px-4 py-2.5 text-center"><button onClick={() => toggleComplete(video.id)} disabled={isDimmed} className={`w-6 h-6 rounded-md border transition-all flex items-center justify-center transform active:scale-90 shadow-sm ${isDimmed ? 'opacity-30 cursor-not-allowed border-gray-200' : (video.isCompleted ? 'bg-green-500 border-green-500 text-white' : 'border-gray-300 dark:border-gray-600 hover:border-green-500 text-transparent hover:text-green-500')}`}><CheckIcon /></button></td>
+                                <td className={`px-4 py-2.5 font-semibold text-center ${isCancelled ? 'line-through text-gray-400' : 'text-gray-700 dark:text-gray-300'}`}>{new Date(video.date).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })}</td>
+                                <td className="px-4 py-2.5 text-center"><button onClick={() => toggleProductStatus(video.id)} disabled={isDimmed} className={`inline-flex items-center gap-1.5 px-2 py-1 rounded text-xs font-bold transition-all w-24 justify-center shadow-sm ${isDimmed ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-400' : (video.productStatus === ProductStatus.ARRIVED ? 'bg-green-100 text-green-700 border border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800 hover:scale-105' : 'bg-red-100 text-red-700 border border-red-200 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/50 hover:scale-105')}`}><BoxIcon /> <span>{video.productStatus === ProductStatus.ARRIVED ? 'Geldi' : 'Gelmedi'}</span></button></td>
+                                <td className={`px-4 py-2.5 font-medium text-left ${isCancelled ? 'line-through decoration-2 decoration-gray-400 text-gray-400' : (video.isCompleted ? 'text-gray-400 dark:text-gray-500' : 'text-gray-900 dark:text-gray-100')}`}><div className="flex items-center gap-2"><span className="truncate">{video.title}</span>{video.notes && (<div className="group/note relative"><div className="text-yellow-500 dark:text-yellow-600 hover:scale-110 transition-transform cursor-help"><StickyNoteIcon /></div><div className="absolute left-0 bottom-full mb-2 hidden group-hover/note:block w-64 p-3 bg-yellow-50 dark:bg-yellow-900/90 text-yellow-900 dark:text-yellow-100 text-xs rounded-lg shadow-xl border border-yellow-200 dark:border-yellow-800 z-50 whitespace-normal backdrop-blur-sm animate-in zoom-in-95 duration-200">{video.notes}<div className="absolute bottom-[-6px] left-3 w-3 h-3 bg-yellow-50 dark:bg-yellow-900/90 border-r border-b border-yellow-200 dark:border-yellow-800 transform rotate-45"></div></div></div>)}</div></td>
+                                <td className="px-4 py-2.5 text-center"><div className={`inline-flex items-center gap-1.5 px-2 py-1 bg-white dark:bg-[#2C2C2C] border border-gray-200 dark:border-gray-700 rounded text-xs shadow-sm w-28 justify-center ${isDimmed ? 'opacity-50 grayscale' : ''}`}><span className={`font-bold uppercase text-[10px] ${video.type === VideoType.VIDEO ? 'text-blue-600 dark:text-blue-400' : video.type === VideoType.ANIMATION ? 'text-purple-600 dark:text-purple-400' : video.type === VideoType.LIFESTYLE ? 'text-teal-600 dark:text-teal-400' : video.type === VideoType.RED_ACTUAL ? 'text-red-600 dark:text-red-400' : 'text-orange-600 dark:text-orange-400'}`}>{video.type}</span></div></td>
+                                <td className="px-4 py-2.5 text-center relative"><div className="relative inline-block w-full group/status hover:scale-105 transition-transform"><div className="flex items-center justify-center gap-1 cursor-pointer"><StatusBadge status={video.status} /><ChevronDownIcon /></div><select value={video.status} onChange={(e) => handleStatusChange(video.id, e.target.value as VideoStatus)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer">{Object.values(VideoStatus).map(s => <option key={s} value={s}>{s}</option>)}</select></div></td>
+                                <td className="px-4 py-2.5 text-center"><button onClick={() => toggleInvoiced(video.id)} disabled={isDimmed} className={`p-1.5 rounded-lg transition-all transform ${isDimmed ? 'opacity-20 cursor-not-allowed' : 'active:scale-90'} ${video.isInvoiced ? 'bg-emerald-600 text-white shadow-md ring-2 ring-emerald-200 dark:ring-emerald-900' : 'text-gray-300 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#333]'}`}>{video.isInvoiced ? <CheckCircleIcon /> : <BillIcon />}</button></td>
+                                <td className="px-4 py-2.5 text-center no-print"><div className="flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"><button onClick={() => handleEdit(video)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded transition-colors"><EditIcon /></button><button onClick={() => handleDelete(video.id)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors"><TrashIcon /></button></div></td>
                             </tr>
                           </React.Fragment>
                         );
@@ -914,24 +644,25 @@ const App: React.FC = () => {
       </main>
 
       {/* -- Mobile Bottom Navigation -- */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-[#050505]/80 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 pb-safe z-50 h-20 shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
-        <div className="flex justify-around items-center h-full px-2 pb-2">
-           <button onClick={() => setActiveTab('home')} className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-all active:scale-95 ${activeTab === 'home' ? 'text-[#D81B2D]' : 'text-gray-400 dark:text-gray-500'}`}>
-              <HomeIcon />
-              <span className="text-[10px] font-bold">Ana Sayfa</span>
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-[#050505]/90 backdrop-blur-xl border-t border-gray-100 dark:border-gray-800 pb-safe z-50 h-[88px] shadow-[0_-5px_20px_rgba(0,0,0,0.03)]">
+        <div className="flex justify-around items-center h-full px-2 pb-4">
+           <button onClick={() => setActiveTab('home')} className={`flex flex-col items-center justify-center w-full h-full space-y-1.5 transition-all active:scale-95 group ${activeTab === 'home' ? 'text-[#D81B2D]' : 'text-gray-400 dark:text-gray-600'}`}>
+              <div className={`p-1.5 rounded-2xl transition-all ${activeTab === 'home' ? 'bg-red-50 dark:bg-red-900/20' : ''}`}><HomeIcon /></div>
+              <span className="text-[9px] font-bold tracking-wide">Ana Sayfa</span>
+              {activeTab === 'home' && <span className="w-1 h-1 rounded-full bg-[#D81B2D] absolute bottom-2"></span>}
            </button>
-           <button onClick={() => { setActiveTab('todo'); setIsToDoOpen(true); }} className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-all active:scale-95 ${activeTab === 'todo' ? 'text-[#D81B2D]' : 'text-gray-400 dark:text-gray-500'}`}>
-              <ListIcon />
-              <span className="text-[10px] font-bold">Yapılacaklar</span>
+           <button onClick={() => { setActiveTab('todo'); setIsToDoOpen(true); }} className={`flex flex-col items-center justify-center w-full h-full space-y-1.5 transition-all active:scale-95 group ${activeTab === 'todo' ? 'text-[#D81B2D]' : 'text-gray-400 dark:text-gray-600'}`}>
+              <div className={`p-1.5 rounded-2xl transition-all ${activeTab === 'todo' ? 'bg-red-50 dark:bg-red-900/20' : ''}`}><ListIcon /></div>
+              <span className="text-[9px] font-bold tracking-wide">Yapılacaklar</span>
            </button>
            <div className="w-14"></div> {/* Spacer for FAB */}
-           <button onClick={() => { setActiveTab('equipment'); setIsEquipmentOpen(true); }} className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-all active:scale-95 ${activeTab === 'equipment' ? 'text-[#D81B2D]' : 'text-gray-400 dark:text-gray-500'}`}>
-              <CameraIcon />
-              <span className="text-[10px] font-bold">Ekipman</span>
+           <button onClick={() => { setActiveTab('equipment'); setIsEquipmentOpen(true); }} className={`flex flex-col items-center justify-center w-full h-full space-y-1.5 transition-all active:scale-95 group ${activeTab === 'equipment' ? 'text-[#D81B2D]' : 'text-gray-400 dark:text-gray-600'}`}>
+              <div className={`p-1.5 rounded-2xl transition-all ${activeTab === 'equipment' ? 'bg-red-50 dark:bg-red-900/20' : ''}`}><CameraIcon /></div>
+              <span className="text-[9px] font-bold tracking-wide">Ekipman</span>
            </button>
-           <button onClick={() => { setActiveTab('subscription'); setIsSubscriptionOpen(true); }} className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-all active:scale-95 ${activeTab === 'subscription' ? 'text-[#D81B2D]' : 'text-gray-400 dark:text-gray-500'}`}>
-              <CreditCardIcon />
-              <span className="text-[10px] font-bold">Abonelik</span>
+           <button onClick={() => { setActiveTab('subscription'); setIsSubscriptionOpen(true); }} className={`flex flex-col items-center justify-center w-full h-full space-y-1.5 transition-all active:scale-95 group ${activeTab === 'subscription' ? 'text-[#D81B2D]' : 'text-gray-400 dark:text-gray-600'}`}>
+              <div className={`p-1.5 rounded-2xl transition-all ${activeTab === 'subscription' ? 'bg-red-50 dark:bg-red-900/20' : ''}`}><CreditCardIcon /></div>
+              <span className="text-[9px] font-bold tracking-wide">Abonelik</span>
            </button>
         </div>
       </div>
@@ -939,75 +670,25 @@ const App: React.FC = () => {
       {/* -- Mobile FAB (New Project) -- */}
       <button 
         onClick={() => { setEditingVideo(null); setIsModalOpen(true); }} 
-        className="md:hidden fixed bottom-6 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-[#D81B2D] text-white rounded-full shadow-[0_8px_25px_rgba(216,27,45,0.4)] flex items-center justify-center z-[60] hover:bg-[#b91625] active:scale-90 transition-all border-4 border-[#F8F9FA] dark:border-[#050505]"
+        className="md:hidden fixed bottom-8 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-[#D81B2D] text-white rounded-full shadow-[0_8px_30px_rgba(216,27,45,0.5)] flex items-center justify-center z-[60] hover:bg-[#b91625] active:scale-90 transition-all border-[6px] border-[#F8F9FA] dark:border-[#050505]"
       >
         <PlusIcon />
       </button>
 
-      {/* -- REFRESHED FLOATING FOOTER -- */}
+      {/* -- DESKTOP FLOATING FOOTER -- */}
       <div className="hidden md:flex fixed bottom-6 left-0 right-0 justify-center z-50 print:hidden pointer-events-none">
          <div className="bg-[#1A1A1A]/90 dark:bg-white/90 backdrop-blur-xl border border-white/10 dark:border-black/10 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.3)] h-16 flex items-center px-6 gap-6 pointer-events-auto transform hover:scale-[1.01] transition-transform duration-300">
-            
-             {/* Section 1: Context */}
-             <div className="flex items-center gap-3">
-                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse"></div>
-                <div className="flex flex-col">
-                    <span className="text-[9px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest leading-none mb-0.5">AKTİF DÖNEM</span>
-                    <span className="text-sm font-bold text-white dark:text-black leading-none hover:text-[#D81B2D] dark:hover:text-[#D81B2D] cursor-pointer" onClick={() => window.scrollTo({top:0, behavior:'smooth'})}>
-                        {filter.month === -1 ? `${filter.year}` : `${MONTHS_TR[filter.month]} ${filter.year}`}
-                    </span>
-                </div>
-             </div>
-
+             <div className="flex items-center gap-3"><div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse"></div><div className="flex flex-col"><span className="text-[9px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest leading-none mb-0.5">AKTİF DÖNEM</span><span className="text-sm font-bold text-white dark:text-black leading-none hover:text-[#D81B2D] dark:hover:text-[#D81B2D] cursor-pointer" onClick={() => window.scrollTo({top:0, behavior:'smooth'})}>{filter.month === -1 ? `${filter.year}` : `${MONTHS_TR[filter.month]} ${filter.year}`}</span></div></div>
              <div className="w-px h-8 bg-white/10 dark:bg-black/10"></div>
-
-             {/* Section 2: Alerts */}
-             <div className="flex items-center gap-2">
-                {missingProductCount > 0 ? (
-                   <button onClick={() => setProductFilterState('NOT_ARRIVED')} className="flex items-center gap-2 px-3 py-1.5 bg-red-500/20 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition-all">
-                      <AlertIcon /> <span className="text-xs font-bold">{missingProductCount} Ürün Eksik</span>
-                   </button>
-                ) : (
-                   <div className="flex items-center gap-2 px-3 py-1.5 text-gray-500 dark:text-gray-400 opacity-60">
-                      <CheckIcon /> <span className="text-xs font-bold">Ürünler Tamam</span>
-                   </div>
-                )}
-                
-                {pendingInvoiceCount > 0 && (
-                   <div className="flex items-center gap-2 px-3 py-1.5 bg-yellow-500/20 text-yellow-500 rounded-lg">
-                      <span className="text-xs font-bold">{pendingInvoiceCount} Faturasız</span>
-                   </div>
-                )}
-             </div>
-
+             <div className="flex items-center gap-2">{missingProductCount > 0 ? (<button onClick={() => setProductFilterState('NOT_ARRIVED')} className="flex items-center gap-2 px-3 py-1.5 bg-red-500/20 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition-all"><AlertIcon /> <span className="text-xs font-bold">{missingProductCount} Ürün Eksik</span></button>) : (<div className="flex items-center gap-2 px-3 py-1.5 text-gray-500 dark:text-gray-400 opacity-60"><CheckIcon /> <span className="text-xs font-bold">Ürünler Tamam</span></div>)}{pendingInvoiceCount > 0 && (<div className="flex items-center gap-2 px-3 py-1.5 bg-yellow-500/20 text-yellow-500 rounded-lg"><span className="text-xs font-bold">{pendingInvoiceCount} Faturasız</span></div>)}</div>
              <div className="w-px h-8 bg-white/10 dark:bg-black/10"></div>
-
-             {/* Section 3: Money */}
-             <div className="flex items-center gap-6">
-                <div className="flex flex-col items-end opacity-70">
-                   <span className="text-[9px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest leading-none mb-0.5">TAHMİNİ GİDER</span>
-                   <span className="text-xs font-mono text-gray-300 dark:text-gray-600">{new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(monthlySubscriptionCost)}</span>
-                </div>
-                
-                <div className="flex flex-col items-end">
-                   <span className="text-[9px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest leading-none mb-0.5">NET KÂR</span>
-                   <span className={`text-xl font-mono font-black leading-none ${netProfit > 0 ? 'text-emerald-400 dark:text-emerald-600' : 'text-red-500'}`}>
-                      {new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(netProfit)}
-                   </span>
-                </div>
-             </div>
-
+             <div className="flex items-center gap-6"><div className="flex flex-col items-end opacity-70"><span className="text-[9px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest leading-none mb-0.5">TAHMİNİ GİDER</span><span className="text-xs font-mono text-gray-300 dark:text-gray-600">{new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(monthlySubscriptionCost)}</span></div><div className="flex flex-col items-end"><span className="text-[9px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest leading-none mb-0.5">NET KÂR</span><span className={`text-xl font-mono font-black leading-none ${netProfit > 0 ? 'text-emerald-400 dark:text-emerald-600' : 'text-red-500'}`}>{new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(netProfit)}</span></div></div>
              <div className="w-px h-8 bg-white/10 dark:bg-black/10"></div>
-
-             <button onClick={() => window.print()} className="p-2.5 text-gray-400 hover:text-white dark:hover:text-black bg-white/5 dark:bg-black/5 hover:bg-white/10 dark:hover:bg-black/10 rounded-lg transition-all" title="Rapor Yazdır">
-                <PrintIcon />
-             </button>
+             <button onClick={() => window.print()} className="p-2.5 text-gray-400 hover:text-white dark:hover:text-black bg-white/5 dark:bg-black/5 hover:bg-white/10 dark:hover:bg-black/10 rounded-lg transition-all" title="Rapor Yazdır"><PrintIcon /></button>
          </div>
       </div>
        
-       <div className="hidden print:block mt-8 pt-8 border-t border-gray-300 text-right pr-4">
-          <p className="text-sm font-bold">Toplam Ciro: {new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(totalInvoiceAmount)}</p>
-       </div>
+       <div className="hidden print:block mt-8 pt-8 border-t border-gray-300 text-right pr-4"><p className="text-sm font-bold">Toplam Ciro: {new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(totalInvoiceAmount)}</p></div>
 
       {/* ... modals ... */}
       <AddVideoModal isOpen={isModalOpen} onClose={() => { setIsModalOpen(false); setEditingVideo(null); }} onSave={handleAddVideo} initialData={editingVideo} />
@@ -1019,6 +700,7 @@ const App: React.FC = () => {
       <DocumentsModal isOpen={isDocumentsOpen} onClose={() => setIsDocumentsOpen(false)} items={documentItems} onAdd={handleAddDocument} onDelete={handleDeleteDocument} />
       <WeekInvoiceModal isOpen={isWeekInvoiceOpen} onClose={() => setIsWeekInvoiceOpen(false)} weekLabel={selectedWeekLabel} items={selectedWeekItems} />
       <WeekLogisticsModal isOpen={isWeekLogisticsOpen} onClose={() => setIsWeekLogisticsOpen(false)} weekLabel={selectedWeekLabel} items={selectedWeekItems} />
+      <CalendarModal isOpen={isCalendarOpen} onClose={() => setIsCalendarOpen(false)} videos={filteredVideos} />
     </div>
   );
 };

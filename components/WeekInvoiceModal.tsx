@@ -10,13 +10,6 @@ interface WeekInvoiceModalProps {
   items: VideoProject[];
 }
 
-// Helper for title case (Turkish support)
-const toTitleCaseTR = (str: string) => {
-    return str.toLocaleLowerCase('tr-TR').split(' ').map(word => 
-        word.charAt(0).toLocaleUpperCase('tr-TR') + word.slice(1)
-    ).join(' ');
-};
-
 export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onClose, weekLabel, items }) => {
   if (!isOpen) return null;
 
@@ -43,9 +36,10 @@ export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onCl
       <tr class="border-b border-gray-200 even:bg-gray-50">
         <td class="py-2 pl-2 text-center text-gray-500 text-[10px] font-mono">${index + 1}</td>
         <td class="py-2 text-[10px] text-gray-700 whitespace-nowrap font-medium">${new Date(item.date).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' })}</td>
-        <td class="py-2 text-[10px] font-bold text-gray-900 tracking-tight whitespace-nowrap">${toTitleCaseTR(item.title)}</td>
+        <td class="py-2 text-[10px] font-bold text-gray-900 uppercase tracking-tight">${item.title}</td>
         <td class="py-2 text-center text-[9px] text-gray-500 uppercase">${item.type}</td>
         <td class="py-2 text-center font-bold text-[10px] font-mono">${item.quantity}</td>
+        <td class="py-2 text-right text-[10px] text-gray-500 font-mono">${new Intl.NumberFormat('tr-TR').format(PROJECT_PRICES[item.type])} ₺</td>
         <td class="py-2 pr-2 text-right font-bold text-[10px] text-black font-mono">${new Intl.NumberFormat('tr-TR').format(PROJECT_PRICES[item.type] * item.quantity)} ₺</td>
       </tr>
     `).join('');
@@ -91,6 +85,7 @@ export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onCl
                 <th class="py-2">PROJE / İÇERİK</th>
                 <th class="py-2 w-20 text-center">TÜR</th>
                 <th class="py-2 w-12 text-center">ADET</th>
+                <th class="py-2 w-24 text-right">BİRİM</th>
                 <th class="py-2 pr-2 w-24 text-right">TUTAR</th>
                 </tr>
             </thead>
@@ -101,11 +96,9 @@ export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onCl
                 <tr class="border-t-2 border-black bg-gray-50">
                     <td colspan="4" class="py-3 text-right text-[9px] font-black text-gray-500 uppercase tracking-widest">TOPLAM ADET</td>
                     <td class="py-3 text-center font-bold text-[10px] font-mono bg-gray-100">${totalQuantity}</td>
+                    <td class="py-3 text-right text-[9px] font-black text-gray-900 uppercase tracking-widest">GENEL TOPLAM</td>
                     <td class="py-3 pr-2 text-right text-lg font-black text-black">
-                       <div class="flex flex-col items-end leading-none">
-                          <span class="text-[7px] text-gray-400 mb-1 font-normal uppercase tracking-wider">GENEL TOPLAM</span>
-                          <span>${new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(totalAmount)}</span>
-                       </div>
+                    ${new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(totalAmount)}
                     </td>
                 </tr>
             </tfoot>
@@ -196,26 +189,28 @@ export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onCl
                             <th className="py-2">PROJE / İÇERİK</th>
                             <th className="py-2 w-20 text-center">KATEGORİ</th>
                             <th className="py-2 w-12 text-center">ADET</th>
+                            <th className="py-2 w-24 text-right">BİRİM FİYAT</th>
                             <th className="py-2 w-24 text-right pr-2">TUTAR</th>
                         </tr>
                     </thead>
                     <tbody className="text-[10px] text-gray-800 font-medium">
                         {sortedItems.length === 0 ? (
-                            <tr><td colSpan={6} className="py-8 text-center italic text-gray-400">Bu dönem için faturalandırılacak kalem bulunmamaktadır.</td></tr>
+                            <tr><td colSpan={7} className="py-8 text-center italic text-gray-400">Bu dönem için faturalandırılacak kalem bulunmamaktadır.</td></tr>
                         ) : (
                             sortedItems.map((item, index) => (
                                 <tr key={item.id} className="border-b border-gray-100 even:bg-gray-50/50">
                                     <td className="py-2 pl-2 text-center text-gray-400 font-mono">{index + 1}</td>
                                     <td className="py-2 whitespace-nowrap text-gray-600">{new Date(item.date).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' })}</td>
-                                    <td className="py-2 font-bold tracking-tight whitespace-nowrap truncate max-w-[250px] text-gray-900">
-                                        {toTitleCaseTR(item.title)}
-                                    </td>
+                                    <td className="py-2 font-bold uppercase truncate max-w-[200px] leading-tight">{item.title}</td>
                                     <td className="py-2 text-center">
                                         <span className="text-[8px] uppercase tracking-wide text-gray-500 font-bold border border-gray-200 px-1 rounded">
                                             {item.type}
                                         </span>
                                     </td>
                                     <td className="py-2 text-center font-mono font-bold">{item.quantity}</td>
+                                    <td className="py-2 text-right font-mono text-gray-500">
+                                        {new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 }).format(PROJECT_PRICES[item.type])} ₺
+                                    </td>
                                     <td className="py-2 text-right font-mono font-bold pr-2 text-black">
                                         {new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 }).format(PROJECT_PRICES[item.type] * item.quantity)} ₺
                                     </td>
@@ -229,8 +224,8 @@ export const WeekInvoiceModal: React.FC<WeekInvoiceModalProps> = ({ isOpen, onCl
                         <tr>
                             <td colSpan={4} className="py-3 text-right text-[9px] font-black text-gray-500 uppercase tracking-widest align-middle">TOPLAM ADET</td>
                             <td className="py-3 text-center font-bold text-[10px] align-middle bg-gray-100">{totalQuantity}</td>
+                            <td className="py-3 text-right text-[9px] font-black text-gray-900 uppercase tracking-widest align-middle">GENEL TOPLAM</td>
                             <td className="py-3 text-right pr-2 align-middle">
-                                <span className="text-[9px] font-black text-gray-900 uppercase tracking-widest mr-2">GENEL TOPLAM</span>
                                 <span className="text-lg font-black text-black tracking-tight">
                                     {new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(totalAmount)}
                                 </span>
