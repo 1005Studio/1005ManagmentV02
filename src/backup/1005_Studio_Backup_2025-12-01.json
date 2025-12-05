@@ -1,1 +1,138 @@
-
+{
+  "videos": [
+    {
+      "id": "m1",
+      "date": "2025-12-01",
+      "title": "Glass in Love Çay Seti",
+      "quantity": 1,
+      "type": "Video",
+      "status": "Çekim",
+      "productStatus": "Geldi",
+      "isCompleted": false,
+      "isInvoiced": false,
+      "notes": "Özel ışık kurulumu yapılacak."
+    },
+    {
+      "id": "m2",
+      "date": "2025-12-03",
+      "title": "Kumtel Ankastre Set Tanıtım",
+      "quantity": 2,
+      "type": "Kırmızı Aktüel",
+      "status": "Planlama",
+      "productStatus": "Gelmedi",
+      "isCompleted": false,
+      "isInvoiced": false
+    },
+    {
+      "id": "m3",
+      "date": "2025-11-29",
+      "title": "Sütlü Tatlılar Reels Serisi",
+      "quantity": 3,
+      "type": "Lifestyle",
+      "status": "Kurgu",
+      "productStatus": "Geldi",
+      "isCompleted": false,
+      "isInvoiced": false
+    },
+    {
+      "id": "m4",
+      "date": "2025-11-26",
+      "title": "Haftanın Ürünleri Animasyon",
+      "quantity": 1,
+      "type": "Animasyon",
+      "status": "Tamamlandı",
+      "productStatus": "Geldi",
+      "isCompleted": true,
+      "isInvoiced": true
+    },
+    {
+      "id": "m5",
+      "date": "2025-12-06",
+      "title": "Dost Süt Ürün Çekimi",
+      "quantity": 4,
+      "type": "Video",
+      "status": "Planlama",
+      "productStatus": "Gelmedi",
+      "isCompleted": false,
+      "isInvoiced": false
+    },
+    {
+      "id": "m6",
+      "date": "2025-11-30",
+      "title": "Bimcell Altbantları",
+      "quantity": 2,
+      "type": "Altbant",
+      "status": "Revize",
+      "productStatus": "Geldi",
+      "isCompleted": false,
+      "isInvoiced": false
+    }
+  ],
+  "todos": [
+    {
+      "id": "t1",
+      "text": "Sabit disklerin yedeğini al",
+      "isCompleted": false,
+      "createdAt": 1764625241686
+    },
+    {
+      "id": "t2",
+      "text": "Kamera bataryalarını şarja tak",
+      "isCompleted": true,
+      "createdAt": 1764625241686
+    },
+    {
+      "id": "t3",
+      "text": "Muhasebeye faturaları ilet",
+      "isCompleted": false,
+      "createdAt": 1764625241686
+    }
+  ],
+  "equipments": [
+    {
+      "id": "e1",
+      "name": "Sony A7S III",
+      "category": "Kamera"
+    },
+    {
+      "id": "e2",
+      "name": "Godox VL150",
+      "category": "Işık"
+    },
+    {
+      "id": "e3",
+      "name": "Sennheiser MKH 416",
+      "category": "Ses"
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": "s1",
+      "name": "Adobe Creative Cloud",
+      "price": 925,
+      "currency": "TL",
+      "cycle": "Aylık"
+    },
+    {
+      "id": "s2",
+      "name": "Epidemic Sound",
+      "price": 15,
+      "currency": "EUR",
+      "cycle": "Aylık"
+    },
+    {
+      "id": "s3",
+      "name": "Dropbox",
+      "price": 120,
+      "currency": "USD",
+      "cycle": "Yıllık"
+    }
+  ],
+  "thisFridayGallery": [],
+  "lifestyleGallery": [],
+  "documents": [],
+  "meta": {
+    "exportedAt": "2025-12-01T21:42:09.516Z",
+    "version": "2.0"
+  }
+}
